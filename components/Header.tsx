@@ -42,7 +42,13 @@ export default function Header() {
         <nav className="flex items-center justify-between px-6">
 
           <Link href="/" className="group flex items-center gap-3">
-            <Image src={'/images/logo.webp'} alt='لوگو شیرآلات بارش ' title='لوگو شیرآلات بارش ' width={100} height={200} />
+            <Image
+              src="/images/logo-footer.webp"
+              alt="لوگو شیرآلات بارش"
+              title="لوگو شیرآلات بارش"
+              width={150}
+              height={200}
+            />
           </Link>
 
           <ul className="hidden lg:flex items-center gap-2">
@@ -61,7 +67,7 @@ export default function Header() {
 
           <div className="flex items-center gap-4">
             <Link
-              href="tel:+980364733583"
+              href="tel:+989123023349"
               className="hidden md:flex items-center gap-3 bg-zinc-900 hover:bg-brand text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 hover:shadow-[0_10px_20px_-10px_rgba(220,38,38,0.5)] group"
             >
               <span className="border-l border-white/20 pl-3">مشاوره رایگان</span>

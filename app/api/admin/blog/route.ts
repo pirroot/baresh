@@ -13,35 +13,26 @@ export async function GET(req: NextRequest) {
 
     const skip = (page - 1) * limit;
 
-    const [blogs, total] = await Promise.all([
-      prisma.blog.findMany({
+    const [posts, total] = await Promise.all([
+      prisma.post.findMany({
+        // تغییر از blog به post
         where: search
           ? {
               OR: [
                 { title: { contains: search, mode: 'insensitive' } },
-                { excerpt: { contains: search, mode: 'insensitive' } },
+                { content: { contains: search, mode: 'insensitive' } },
               ],
             }
           : {},
-        orderBy: { createdAt: 'desc' },
+        orderBy: { date: 'desc' }, // فیلد تاریخ در مدل ما date است
         skip,
         take: limit,
-        select: {
-          id: true,
-          title: true,
-          slug: true,
-          excerpt: true,
-          published: true,
-          coverImage: true,
-          createdAt: true,
-          updatedAt: true,
-        },
       }),
-      prisma.blog.count(),
+      prisma.post.count(),
     ]);
 
     return NextResponse.json({
-      blogs,
+      posts,
       total,
       page,
       totalPages: Math.ceil(total / limit),
@@ -59,35 +50,52 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { title, slug, excerpt, content, coverImage, published } = body;
+    const {
+      title,
+      slug,
+      content,
+      image,
+      category,
+      readTime,
+      seoTitle,
+      seoDescription,
+      keywords,
+    } = body;
 
+    // ولیدیشن فیلدهای اجباری
     if (!title || !slug || !content) {
       return NextResponse.json(
-        { error: 'عنوان، slug و محتوا الزامی هستند' },
+        { error: 'عنوان، اسلاگ و محتوا الزامی هستند' },
         { status: 400 }
       );
     }
 
-    const existing = await prisma.blog.findUnique({ where: { slug } });
+    // چک کردن تکراری نبودن اسلاگ
+    const existing = await prisma.post.findUnique({ where: { slug } });
     if (existing) {
       return NextResponse.json(
-        { error: 'این slug قبلاً استفاده شده' },
+        { error: 'این slug قبلاً استفاده شده است' },
         { status: 409 }
       );
     }
 
-    const blog = await prisma.blog.create({
+    // ایجاد پست با رعایت ساختار Schema
+    const post = await prisma.post.create({
       data: {
         title,
-        slug,
-        excerpt: excerpt ?? null,
+        slug: slug.trim().replace(/\s+/g, '-').toLowerCase(), // استانداردسازی اسلاگ
         content,
-        coverImage: coverImage ?? null,
-        published: published ?? false,
+        image: image ?? null,
+        category: category ?? 'دسته بندی نشده',
+        readTime: readTime ?? '5 دقیقه',
+        seoTitle: seoTitle ?? title,
+        seoDescription: seoDescription ?? null,
+        keywords: keywords ?? [],
+        date: new Date(), // تاریخ انتشار
       },
     });
 
-    return NextResponse.json(blog, { status: 201 });
+    return NextResponse.json(post, { status: 201 });
   } catch (error) {
     console.error('[BLOG_POST]', error);
     return NextResponse.json({ error: 'خطا در ایجاد پست' }, { status: 500 });

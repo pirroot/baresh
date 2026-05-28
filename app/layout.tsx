@@ -74,9 +74,7 @@ export default function RootLayout({
     <html lang="fa" dir="rtl" className={`scroll-smooth ${raviFont.variable} `}>
       <body className="bg-[#202022] bg-grid">
         <Header />
-        <main>
-          {children}
-        </main>
+        {children}
         <Footer />
       </body>
     </html>

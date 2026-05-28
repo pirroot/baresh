@@ -31,7 +31,7 @@ export default function Footer() {
         </ul>
       </div>
 
-      <div className="text-sm text-white flex justify-between max-lg:mb-14 max-lg:flex-col max-lg:gap-3 items-center">
+      <div className="text-sm text-white flex justify-between  max-lg:flex-col max-lg:gap-3 items-center">
         <p>
           &copy; 2026 تمامی حقوق برای سایت{" "}
           <Link href="/" className="text-cos-hi font-bold hover:underline transition-colors">

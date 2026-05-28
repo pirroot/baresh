@@ -1,5 +1,5 @@
 import HeroSlider, { Slide } from "@/components/Home/TopPage/HeroSlider";
-import TypeitHome from "@/components/Typeit/Typeit-Home";
+import TypeitHome from "@/components/Home/Typeit/Typeit-Home";
 import Link from "next/link";
 
 const sliderList: Slide[] = [
@@ -43,9 +43,9 @@ const sliderList: Slide[] = [
 
 export default function () {
   return (
-    <section className="container mx-auto grid lg:grid-cols-2 items-center gap-20 my-50 text-white">
+    <section className="container mx-auto grid lg:grid-cols-2 items-center gap-20 mt-50 mb-20 text-white">
 
-      <div className="space-y-10">
+      <div className="space-y-10 max-sm:text-center">
         <div className="">
           <span className="text-red-600 font-bold tracking-widest uppercase text-sm">
             بارش | نوآوری در جریان
@@ -59,13 +59,18 @@ export default function () {
           </h1>
         </div>
 
-        <p className="text-gray-400 text-lg leading-10 text-justify">
+        <p className="text-gray-400 text-lg leading-10 text-justify max-sm:px-5">
           ما در «بارش» با بهره‌گیری از تکنولوژی‌های پیشرفته تولید و متریال‌های استاندارد، نسل جدیدی از شیرآلات ساختمانی را با طراحی‌های مدرن و ارگونومیک ارائه می‌دهیم. محصولات ما، ترکیبی دقیق از دوام صنعتی و زیبایی‌شناسی هنری برای پروژه‌های معماری و مسکونی هستند. با نوآوری‌های بارش، استانداردهای جدیدی را در کیفیت جریان آب و تجهیزات بهداشتی ساختمان تجربه کنید. انتخاب بارش، یعنی انتخاب اصالت و دقت در هر قطره.
         </p>
 
-        <Link href={'/products'} title="نمایش محصولات بارش" className="bg-linear-700 from-red-400 bg-red-950 hover:bg-red-800 text-white px-8 py-4 rounded-xl font-medium transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)] ">
-          مشاهده محصولات بارش
-        </Link>
+        <div className="flex gap-5 max-sm:justify-around">
+          <Link href={'/products'} title="نمایش محصولات بارش" className="bg-linear-700 from-red-400 bg-red-950 hover:bg-red-800 text-white px-8 py-4 rounded-xl font-medium transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)]">
+            مشاهده محصولات بارش
+          </Link>
+          <Link href={'/contact-us'} title="نمایش محصولات بارش" className="bg-linear-700 border-2 border-white/80 text-white px-8 py-4 rounded-xl font-medium transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)]">
+            تماس با ما
+          </Link>
+        </div>
       </div>
 
       <div className="relative flex justify-center">

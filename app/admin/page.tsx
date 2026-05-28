@@ -1,52 +1,4 @@
-import { prisma } from "@/lib/prisma";
-import { MdArticle, MdInventory, MdVisibility, MdTrendingUp } from "react-icons/md";
-
 export default async function AdminPage() {
-  // const [totalBlogs, publishedBlogs, totalProducts, inStockProducts] =
-  //   await Promise.all([
-  //     prisma.blog.count(),
-  //     prisma.blog.count({ where: { published: true } }),
-  //     prisma.product.count(),
-  //     prisma.product.count({ where: { inStock: true } }),
-  //   ]);
-
-  // const recentBlogs = await prisma.blog.findMany({
-  //   orderBy: { createdAt: "desc" },
-  //   take: 5,
-  //   select: { id: true, title: true, published: true, createdAt: true },
-  // });
-
-  // const stats = [
-  //   {
-  //     label: "کل پست‌های بلاگ",
-  //     value: totalBlogs,
-  //     sub: `${publishedBlogs} منتشر شده`,
-  //     icon: MdArticle,
-  //     color: "bg-blue-500/10 text-blue-400",
-  //   },
-  //   {
-  //     label: "کل محصولات",
-  //     value: totalProducts,
-  //     sub: `${inStockProducts} موجود در انبار`,
-  //     icon: MdInventory,
-  //     color: "bg-purple-500/10 text-purple-400",
-  //   },
-  //   {
-  //     label: "پست‌های پیش‌نویس",
-  //     value: totalBlogs - publishedBlogs,
-  //     sub: "منتشر نشده",
-  //     icon: MdVisibility,
-  //     color: "bg-amber-500/10 text-amber-400",
-  //   },
-  //   {
-  //     label: "ناموجود در انبار",
-  //     value: totalProducts - inStockProducts,
-  //     sub: "نیاز به بروزرسانی",
-  //     icon: MdTrendingUp,
-  //     color: "bg-red-500/10 text-red-400",
-  //   },
-  // ];
-
   return (
     <div dir="rtl">
       <div className="mb-8">
@@ -54,7 +6,6 @@ export default async function AdminPage() {
         <p className="text-white/50 text-sm mt-1">خلاصه وضعیت سایت</p>
       </div>
 
-      {/* Stats Grid */}
       <div className="grid grid-cols-4 gap-4 mb-10">
         {/* {stats.map(({ label, value, sub, icon: Icon, color }) => (
           <div
