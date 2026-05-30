@@ -13,8 +13,6 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const product = await getProductBySlug(decodeURIComponent((await params).slug))
 
-  if (!product) return { title: "محصول پیدا نشد" }
-
   return {
     title: product.seoTitle || `${product.title} | صنایع بارش`,
     description: product.seoDescription || product.description,
@@ -28,8 +26,7 @@ export async function generateMetadata(
 }
 
 export default async function ProductDetail({ params }: IProductDetailProps) {
-  const result = await getProductBySlug(decodeURIComponent((await params).slug))
-  const product = (await result.data)
+  const product = await getProductBySlug(decodeURIComponent((await params).slug))
 
   if (!product) notFound()
 
@@ -49,8 +46,8 @@ export default async function ProductDetail({ params }: IProductDetailProps) {
             <div className="absolute -inset-1 bg-linear-to-r from-white/10 to-white/5 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
             <div className="relative bg-white/5 border border-white/10 rounded-3xl overflow-hidden aspect-square flex items-center justify-center backdrop-blur-sm">
               <Image
-                src={"/images/products/p3.webp"}
-                alt={product.title}
+                src={product.image}
+                alt={`تصویر محصول ${product.title}`}
                 width={800}
                 height={800}
                 priority

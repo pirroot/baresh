@@ -28,21 +28,52 @@ model Product {
   @@index([slug])
 }
 
-// model Post {
-//   id       String   @id @default(uuid())
-//   title    String
-//   slug     String @unique
-//   content  String @db.Text
-//   category String
-//   image    String
-//   readTime String
+model Post {
+  id       String @id @default(uuid())
+  title    String
+  slug     String @unique
+  content  String @db.Text
+  category String
+  image    String
+  readTime String
 
-//   seoTitle       String
-//   seoDescription String   @db.Text
-//   keywords       String[]
+  seoTitle       String
+  seoDescription String   @db.Text
+  keywords       String[]
 
-//   date      DateTime @default(now())
-//   updatedAt DateTime @updatedAt
+  date      DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-//   @@index([slug])
-// }
+  @@index([slug])
+}
+
+model SiteInfo {
+  id Int @id @default(1)
+
+  phone          String?
+  factoryAddress String? @db.Text
+
+  instagram String?
+  telegram  String?
+  bale      String?
+  shopUrl   String?
+
+  yearsOfExperience Int? @default(0)
+  deliveredProducts Int? @default(0)
+  trustedCustomers  Int? @default(0)
+  coveredCountries  Int? @default(0)
+
+  aboutImage   String?
+  aboutTitle   String?
+  aboutText    String? @db.Text
+  homePageText String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FAQ {
+  id       String @id @default(uuid())
+  question String
+  answer   String
+}

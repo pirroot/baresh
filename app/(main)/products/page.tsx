@@ -1,21 +1,20 @@
-import { getProductsApi } from "@/services/Product/productServices"
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
+import { getProductsApi } from "@/services/Product/productServices"
 
 export const metadata: Metadata = {
-  title: "محصولات | بارش صنعتی — شیرآلات صنعتی و خانگی",
+  title: "محصولات",
   description: "مشاهده کامل محصولات بارش صنعتی شامل شیرآلات صنعتی، خانگی، اتصالات و پمپ‌ها. کیفیت بین‌المللی، گارانتی ۲ ساله.",
   openGraph: {
-    title: "محصولات بارش صنعتی",
+    title: "محصولات",
     description: "شیرآلات صنعتی و خانگی با کیفیت بین‌المللی.",
     type: "website",
   },
 }
 
 export default async function Products() {
-  const result = await getProductsApi()
-  const products = (await result.data)
+  const products = await getProductsApi()
 
   return (
     <main dir="rtl" className="text-white mt-20">
@@ -24,15 +23,14 @@ export default async function Products() {
           <p className="text-white/40 text-xs tracking-widest uppercase mb-3">
             محصولات ما
           </p>
-          <h1 className="text-2xl font-semibold mb-3">شیرآلات بارش صنعتی</h1>
+          <h1 className="text-2xl font-semibold mb-3">شیرآلات صنعتی بارش</h1>
           <p className="text-sm text-white/50 max-w-sm mx-auto leading-7">
             مجموعه کاملی از شیرآلات صنعتی و خانگی با استانداردهای بین‌المللی
           </p>
           <div className="mt-5 w-10 h-px bg-white/30 mx-auto" />
         </div>
-
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-          {products.map((product: any) => (
+          {products && products.map((product: any) => (
             <Link
               key={product.id}
               href={`/products/${product.slug}`}
@@ -62,55 +60,6 @@ export default async function Products() {
             </Link>
           ))}
         </div>
-
-        {/* اگر محصولی نبود */}
-        {products.length === 0 && (
-          <div className="text-center py-20 text-white/20 italic text-sm">
-            در حال حاضر محصولی برای نمایش وجود ندارد.
-          </div>
-        )}
-
-        {/* {products.length > 1 && (
-          <nav aria-label="صفحه‌بندی محصولات" className="flex justify-center items-center gap-2">
-            {currentPage > 1 ? (
-              <Link
-                href={`/products?page=${currentPage - 1}`}
-                className="border border-white/20 rounded-xl px-4 py-2 text-sm text-white/60 transition-all duration-200 hover:bg-white/10 hover:border-white/40 hover:text-white"
-                aria-label="صفحه قبل"
-              >
-                ←
-              </Link>
-            ) : (
-              <span className="border border-white/10 rounded-xl px-4 py-2 text-sm text-white/20 cursor-not-allowed">←</span>
-            )}
-
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <Link
-                key={page}
-                href={`/products?page=${page}`}
-                className={`border rounded-xl px-4 py-2 text-sm transition-all duration-200 ${page === currentPage
-                  ? "bg-white text-black border-white font-semibold"
-                  : "border-white/20 text-white/60 hover:bg-white/10 hover:border-white/40 hover:text-white"
-                  }`}
-              >
-                {page.toLocaleString("fa-IR")}
-              </Link>
-            ))}
-
-            {currentPage < totalPages ? (
-              <Link
-                href={`/products?page=${currentPage + 1}`}
-                className="border border-white/20 rounded-xl px-4 py-2 text-sm text-white/60 transition-all duration-200 hover:bg-white/10 hover:border-white/40 hover:text-white"
-                aria-label="صفحه بعد"
-              >
-                →
-              </Link>
-            ) : (
-              <span className="border border-white/10 rounded-xl px-4 py-2 text-sm text-white/20 cursor-not-allowed">→</span>
-            )}
-          </nav>
-        )} */}
-
       </section>
     </main>
   )

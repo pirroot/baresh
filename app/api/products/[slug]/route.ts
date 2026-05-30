@@ -15,7 +15,7 @@ export async function GET(
       where: { slug },
     });
 
-    return NextResponse.json({ data: result });
+    return NextResponse.json(result);
   } catch {
     return NextResponse.json({ error: 'خطایی به وجود آمد.' }, { status: 500 });
   }

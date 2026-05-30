@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
-import Header from '@/components/Header';
-import raviFont from '@/constants/font';
+import raviFont from '@/lib/font';
 import './globals.css';
-import Footer from '@/components/Footer';
+import ConditionalLayout from '@/components/ConditionalLayout';
 
 export const metadata: Metadata = {
   title: {
@@ -73,9 +72,9 @@ export default function RootLayout({
   return (
     <html lang="fa" dir="rtl" className={`scroll-smooth ${raviFont.variable} `}>
       <body className="bg-[#202022] bg-grid">
-        <Header />
-        {children}
-        <Footer />
+        <ConditionalLayout >
+          {children}
+        </ConditionalLayout>
       </body>
     </html>
   );

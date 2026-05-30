@@ -1,23 +1,12 @@
 'use client'
-import React, { useState } from 'react';
-import { MdAdd, MdClose } from 'react-icons/md';
+import { useState } from 'react';
+import { redirect } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { MdAdd } from 'react-icons/md';
+import { IProduct } from '@/types/ProductDto';
+import { createProductAdminApi, uploadProductImage, uploadProductPdf } from '@/services/admin/adminServices';
 
-export interface IProduct {
-  id: number;
-  title: string;
-  slug: string;
-  category: string;
-  image: string;
-  catalogPdf: string;
-  description: string;
-  product_description: string;
-  features: string[];
-  seoTitle?: string | null;
-  seoDescription?: string | null;
-  keywords: string[];
-  createdAt: Date;
-  updatedAt: Date;
-}
+
 
 const inputClass = `
   w-full px-3 py-2.5 rounded-lg border border-gray-200
@@ -30,26 +19,49 @@ const labelClass = "block text-sm text-gray-500 mb-1";
 
 const AddProductModal = () => {
   const [open, isOpen] = useState<boolean>(false);
-  const [form, setForm] = useState({
-    title: '',
-    slug: '',
-    category: '',
-    description: '',
-    product_description: '',
-    features: '',
-    keywords: '',
-    seoTitle: '',
-    seoDescription: '',
-  });
+  const { register, handleSubmit } = useForm<IProduct>()
+  const [file, setFile] = useState<File | null>(null)
+  const [pdf, setPDf] = useState<File | null>(null)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const upload_Image_file = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = e.target.files?.[0] ?? null;
+    setFile(selected);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log(form);
-    isOpen(false);
+  const upload_Pdf_file = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const pdf = e.target.files?.[0] ?? null
+    setPDf(pdf)
+  }
+
+  const onSubmit = async (data: IProduct) => {
+    let imagePath = '';
+    let pdfPath = ''
+
+    if (file) {
+      const uploaded = await uploadProductImage(file);
+      imagePath = uploaded.image;
+    }
+
+    if (pdf) {
+      const pdf_uploaded = await uploadProductPdf(pdf)
+      pdfPath = pdf_uploaded.pdf
+    }
+
+    await createProductAdminApi({
+      ...data,
+      slug: data.title
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, "-")
+        .replace(/[^a-z0-9\u0600-\u06FF-]/g, "")
+        .slice(0, 60) + `-${Math.floor(Math.random() * 10000)}`,
+      features: (data.features as unknown as string).split(',').map((k) => k.trim()).filter((k) => k !== ''),
+      keywords: (data.keywords as unknown as string).split(',').map((k) => k.trim()).filter((k) => k !== ''),
+      image: imagePath,
+      catalogPdf: pdfPath,
+    });
+    isOpen(false)
+    redirect("/admin/products")
   };
 
   return (
@@ -71,70 +83,71 @@ const AddProductModal = () => {
             className="relative w-full max-w-xl mx-4 bg-zinc-700/40 text-white rounded-2xl shadow-xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
               <h2 className="text-base font-semibold ">افزودن محصول جدید</h2>
             </div>
 
             {/* Form */}
-            <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4 max-h-[70vh] overflow-y-auto">
-
+            <form onSubmit={handleSubmit(onSubmit)} className="px-6 py-5 space-y-4 max-h-[70vh] overflow-y-auto">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className={labelClass}>عنوان محصول</label>
                   <input
                     type="text"
-                    name="title"
-                    value={form.title}
-                    onChange={handleChange}
-                    placeholder="مثال: لپ‌تاپ دل"
+                    {...register('title', { required: true })}
+                    placeholder="مثال: شیر آب"
                     className={inputClass}
                   />
                 </div>
+
                 <div>
-                  <label className={labelClass}>اسلاگ</label>
+                  <label className={labelClass}>دسته‌بندی</label>
                   <input
                     type="text"
-                    name="slug"
-                    value={form.slug}
-                    onChange={handleChange}
-                    placeholder="dell-laptop"
+                    {...register("category", { required: true })}
+                    placeholder="مثال: شیرآلات"
                     className={inputClass}
-                    dir="ltr"
                   />
                 </div>
-              </div>
-
-              <div>
-                <label className={labelClass}>دسته‌بندی</label>
-                <input
-                  type="text"
-                  name="category"
-                  value={form.category}
-                  onChange={handleChange}
-                  placeholder="مثال: الکترونیک"
-                  className={inputClass}
-                />
               </div>
 
               <div>
                 <label className={labelClass}>توضیح کوتاه</label>
                 <input
                   type="text"
-                  name="description"
-                  value={form.description}
-                  onChange={handleChange}
-                  placeholder="یک خط توضیح"
+                  {...register("description", { required: true })}
+                  placeholder="یک خط توضیح کوتاه از محصول"
                   className={inputClass}
                 />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className={labelClass}>عکس محصول</label>
+                  <input
+                    type="file"
+                    accept='image/*'
+                    onChange={upload_Image_file}
+                    className={inputClass}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className={labelClass}>کاتالوگ محصول</label>
+                  <input
+                    type="file"
+                    accept='application/pdf'
+                    onChange={upload_Pdf_file}
+                    className={inputClass}
+                  />
+                </div>
+
               </div>
 
               <div>
                 <label className={labelClass}>توضیح کامل محصول</label>
                 <textarea
-                  name="product_description"
-                  value={form.product_description}
-                  onChange={handleChange}
+                  {...register("product_description", { required: true })}
                   placeholder="توضیحات کامل محصول را اینجا بنویسید..."
                   rows={3}
                   className={`${inputClass} resize-none`}
@@ -146,9 +159,7 @@ const AddProductModal = () => {
                   <label className={labelClass}>ویژگی‌ها</label>
                   <input
                     type="text"
-                    name="features"
-                    value={form.features}
-                    onChange={handleChange}
+                    {...register('features', { required: true })}
                     placeholder="با کاما جدا کنید"
                     className={inputClass}
                   />
@@ -157,9 +168,7 @@ const AddProductModal = () => {
                   <label className={labelClass}>کلمات کلیدی</label>
                   <input
                     type="text"
-                    name="keywords"
-                    value={form.keywords}
-                    onChange={handleChange}
+                    {...register('keywords', { required: true })}
                     placeholder="با کاما جدا کنید"
                     className={inputClass}
                   />
@@ -171,10 +180,8 @@ const AddProductModal = () => {
                   <label className={labelClass}>عنوان SEO</label>
                   <input
                     type="text"
-                    name="seoTitle"
-                    value={form.seoTitle}
-                    onChange={handleChange}
-                    placeholder="اختیاری"
+                    {...register('seoTitle', { required: true })}
+                    placeholder="برای بهبود فروش"
                     className={inputClass}
                   />
                 </div>
@@ -182,38 +189,34 @@ const AddProductModal = () => {
                   <label className={labelClass}>توضیح SEO</label>
                   <input
                     type="text"
-                    name="seoDescription"
-                    value={form.seoDescription}
-                    onChange={handleChange}
-                    placeholder="اختیاری"
+                    {...register('seoDescription', { required: true })}
+                    placeholder="برای بهبود فروش"
                     className={inputClass}
                   />
                 </div>
               </div>
 
+              <div className="flex items-center justify-start gap-2">
+                <button
+                  type="submit"
+                  className="px-5 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 active:scale-95 transition-all"
+                >
+                  ذخیره محصول
+                </button>
+                <button
+                  type="button"
+                  onClick={() => isOpen(false)}
+                  className="px-4 py-2 text-sm  hover:text-gray-800 rounded-lg hover:bg-gray-100 transition-colors"
+                >
+                  انصراف
+                </button>
+              </div>
             </form>
 
-            {/* Footer */}
-            <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-100 bg-gray-700">
-              <button
-                type="button"
-                onClick={() => isOpen(false)}
-                className="px-4 py-2 text-sm  hover:text-gray-800 rounded-lg hover:bg-gray-100 transition-colors"
-              >
-                انصراف
-              </button>
-              <button
-                type="submit"
-                onClick={handleSubmit}
-                className="px-5 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 active:scale-95 transition-all"
-              >
-                ذخیره محصول
-              </button>
-            </div>
           </div>
-        </div>
+        </div >
       )}
-    </div>
+    </div >
   );
 };
 

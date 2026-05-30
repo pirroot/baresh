@@ -1,4 +1,6 @@
-import AboutFaq from "@/components/About/AboutFaq"
+import AboutFaq from "@/components/AboutFaq"
+import HomeCategories from "@/components/Home/HomeCategories"
+import HomeStats from "@/components/Home/HomeStats"
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
@@ -117,27 +119,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="container mx-auto py-8" aria-label="آمار و دستاوردها">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { value: "+۲۰", label: "سال سابقه" },
-            { value: "+۵۰۰۰", label: "محصول تحویل‌داده‌شده" },
-            { value: "+۳۰۰", label: "مشتری مورد اعتماد" },
-            { value: "۱۲", label: "کشور تحت پوشش" },
-          ].map(({ value, label }) => (
-            <div
-              key={label}
-              className="flex flex-col items-center justify-center text-center
-                border border-white/20 rounded-2xl py-8
-                bg-white/10 backdrop-blur-sm"
-            >
-              <span className="text-4xl font-black mb-2">{value}</span>
-              <div className="w-8 h-px bg-white/30 mb-3" />
-              <p className="text-white/55 text-xs">{label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
 
       <section className="container mx-auto py-16" aria-labelledby="values-heading">
         <div className="text-center mb-10">
@@ -147,30 +128,8 @@ export default function AboutPage() {
           </h2>
           <div className="mt-4 w-10 h-px bg-white/30 mx-auto" />
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {values.map(({ icon: Icon, title, description }) => (
-            <div
-              key={title}
-              className="
-                flex flex-col items-center text-center gap-4
-                border border-white/20 rounded-2xl px-6 py-8
-                bg-white/10 backdrop-blur-sm
-                transition-all duration-300
-                hover:bg-white/15 hover:border-white/40 hover:-translate-y-1
-                group
-              "
-            >
-              <div className="p-3 rounded-xl bg-white/10 border border-white/20
-                group-hover:bg-white/20 transition-all duration-300">
-                <Icon size={32} />
-              </div>
-              <div className="w-8 h-px bg-white/30 group-hover:w-14 transition-all duration-300" />
-              <h3 className="text-base font-semibold">{title}</h3>
-              <p className="text-white/50 text-xs leading-6">{description}</p>
-            </div>
-          ))}
-        </div>
+        <HomeStats />
+        <HomeCategories />
       </section>
 
       <div className="flex justify-between gap-10 container mx-auto py-16">

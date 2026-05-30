@@ -2,7 +2,7 @@
  * @interface IProduct
  */
 export interface IProduct {
-  id: number;
+  id: string;
   title: string;
   slug: string;
   category: string;
@@ -11,11 +11,9 @@ export interface IProduct {
   description: string;
   product_description: string;
   features: string[];
-
   seoTitle?: string | null;
   seoDescription?: string | null;
   keywords: string[];
-
   createdAt: Date;
   updatedAt: Date;
 }
