@@ -1,13 +1,18 @@
 "use client"
-import NeshanMap from "@neshan-maps-platform/react-openlayers"
+import { APIProvider, Map, AdvancedMarker } from "@vis.gl/react-google-maps"
 
-export default function NeshanMapClient() {
+export default function GoogleMapClient() {
+  const position = { lat: 39.056428518547484, lng: 48.04917508594578 }
   return (
-    <NeshanMap
-      mapKey="web.ae5f9aa20aac4f64845ed2667787e1a9"
-      center={{ latitude: 39.056370436767786, longitude: 48.04919842564095 }}
-      zoom={17}
-      className="w-full h-full"
-    />
+    <APIProvider apiKey={""}>
+      <Map
+        defaultCenter={position}
+        defaultZoom={17}
+        mapId="main-map"
+        className="w-full h-full"
+      >
+        <AdvancedMarker position={position} />
+      </Map>
+    </APIProvider>
   )
 }
