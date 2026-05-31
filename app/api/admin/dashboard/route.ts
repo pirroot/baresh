@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/prisma';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     const [productCount, postCount, faqCount, recentPosts] = await Promise.all([
       prisma.product.count(),
