@@ -1,13 +1,6 @@
 import { getHomeDataApi } from "@/services/homeServices"
 import HomeProductItem from "./HomeProductItem"
 
-interface IHomeProductDto {
-  image: string
-  title: string
-  slug: string
-}
-
-
 export default async function HomeProducts() {
   const { products } = await getHomeDataApi()
   return (

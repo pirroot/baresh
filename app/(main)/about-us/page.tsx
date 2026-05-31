@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import AboutFaq from "@/components/AboutFaq"
 import HomeCategories from "@/components/Home/HomeCategories"
 import HomeStats from "@/components/Home/HomeStats"
@@ -5,12 +6,6 @@ import { getHomeDataApi } from "@/services/homeServices"
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
-import {
-  HiSparkles,
-  HiShieldCheck,
-  HiBeaker,
-  HiGlobeAlt,
-} from "react-icons/hi2"
 
 export const metadata: Metadata = {
   title: "درباره ما | بارش صنعتی — تولیدکننده شیرآلات صنعتی",
