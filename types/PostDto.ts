@@ -1,5 +1,5 @@
 export interface IPost {
-  id?: string;
+  id: string;
   title: string;
   slug: string;
   content: string;
@@ -9,6 +9,6 @@ export interface IPost {
   seoTitle: string;
   seoDescription: string;
   keywords: string[];
-  date?: string;
-  updatedAt?: string;
+  date: string;
+  updatedAt: string;
 }

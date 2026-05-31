@@ -13,7 +13,18 @@ export interface IHomeData {
   >[];
   posts: Pick<
     IPost,
-    'id' | 'title' | 'slug' | 'image' | 'category' | 'date' | 'readTime'
+    | 'id'
+    | 'title'
+    | 'slug'
+    | 'content'
+    | 'category'
+    | 'image'
+    | 'readTime'
+    | 'seoTitle'
+    | 'seoDescription'
+    | 'keywords'
+    | 'date'
+    | 'updatedAt'
   >[];
   siteInfo: ISiteInfo | null;
 }

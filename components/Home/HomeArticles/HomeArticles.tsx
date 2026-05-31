@@ -1,15 +1,7 @@
 import Link from "next/link"
 import HomeArticleItem from "./HomeArticleItem"
 import { getHomeDataApi } from "@/services/homeServices"
-
-interface IHomeArticleDto {
-  slug: string
-  image: string
-  title: string
-  excerpt: string
-  date: string
-  category: string
-}
+import { IPost } from "@/types/PostDto"
 
 export default async function HomeArticles() {
   const { posts } = await getHomeDataApi()
@@ -40,8 +32,8 @@ export default async function HomeArticles() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {posts.map((article: any) => (
-          <HomeArticleItem key={article.slug} {...article} />
+        {posts.map((article: IPost) => (
+          <HomeArticleItem key={article.slug} article={article} />
         ))}
       </div>
     </section>

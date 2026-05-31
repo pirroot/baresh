@@ -65,7 +65,9 @@ export default function AdminBlogPage() {
     setImagePreview(post.image ?? null)
     reset({
       ...post,
-      keywords: Array.isArray(post.keywords) ? post.keywords.join(', ') as any : post.keywords,
+      keywords: (Array.isArray(post.keywords)
+        ? post.keywords.join(', ')
+        : post.keywords) as unknown as string[],
     })
     setModalOpen(true)
   }

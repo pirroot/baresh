@@ -3,12 +3,10 @@ import TypeitHome from "@/components/Home/Typeit/Typeit-Home";
 import { getHomeDataApi } from "@/services/homeServices";
 import Link from "next/link";
 
-export default async function () {
-  const { sliders } = await getHomeDataApi();
-  const { siteInfo } = await getHomeDataApi();
+export default async function TopPage() {
+  const { sliders, siteInfo } = await getHomeDataApi();
   return (
     <section className="container mx-auto grid lg:grid-cols-2 items-center gap-20 mt-50 mb-20 text-white">
-
       <div className="space-y-10 max-sm:text-center">
         <div className="">
           <span className="text-red-600 font-bold tracking-widest uppercase text-sm">
@@ -39,5 +37,6 @@ export default async function () {
         <div className="absolute inset-1 bg-red-600/15 blur-[120px] rounded-full" />
         <HeroSlider slides={sliders} />
       </div>
-    </section >)
+    </section >
+  )
 }

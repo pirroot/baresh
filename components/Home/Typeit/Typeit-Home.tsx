@@ -1,8 +1,8 @@
 'use client'
 import TypeIt from "typeit-react";
 
-export default function () {
-  return <TypeIt
+export default function TypeitHome() {
+  return (<TypeIt
     options={{
       strings: ["کیفیت ماندگار", "تکنولوژی فردا", "طراحی هوشمند"],
       loop: true,
@@ -10,5 +10,5 @@ export default function () {
       breakLines: false,
       waitUntilVisible: true,
     }}
-  />
+  />)
 }

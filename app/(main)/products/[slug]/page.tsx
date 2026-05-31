@@ -69,7 +69,7 @@ export default async function ProductDetail({ params }: IProductDetailProps) {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {product.features.map((feature: any, index: number) => (
+              {product.features.map((feature: string, index: number) => (
                 <div key={index} className="flex items-center gap-3 bg-white/5 border border-white/5 rounded-xl p-4">
                   <div className="w-2 h-2 rounded-full bg-white/30" />
                   <span className="text-sm text-white/80">{feature}</span>

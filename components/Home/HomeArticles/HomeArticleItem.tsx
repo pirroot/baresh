@@ -1,21 +1,13 @@
+import { IPost } from "@/types/PostDto"
 import Image from "next/image"
 import Link from "next/link"
 
-interface IHomeArticleItemProps {
-  slug: string
-  image: string
-  title: string
-  excerpt: string
-  date: string
+interface Props {
+  article: IPost
 }
 
-export default function HomeArticleItem({
-  slug,
-  image,
-  title,
-  excerpt,
-  date,
-}: IHomeArticleItemProps) {
+export default function HomeArticleItem({ article }: Props) {
+  const { slug, image, title, date } = article;
   return (
     <article className="
       relative overflow-hidden
@@ -26,7 +18,6 @@ export default function HomeArticleItem({
       hover:bg-white/15 hover:border-white/40 hover:-translate-y-1
       group
     ">
-      {/* تصویر */}
       <Link href={`/articles/${slug}`} tabIndex={-1} aria-hidden="true">
         <div className="relative w-full aspect-video overflow-hidden rounded-t-2xl">
           <Image
@@ -39,7 +30,6 @@ export default function HomeArticleItem({
         </div>
       </Link>
 
-      {/* متن */}
       <div className="flex flex-col gap-3 p-5 flex-1">
         <time
           dateTime={date}
@@ -61,10 +51,6 @@ export default function HomeArticleItem({
           </Link>
         </h3>
 
-        <p className="text-white/50 text-sm leading-6 line-clamp-2 flex-1">
-          {excerpt}
-        </p>
-
         <Link
           href={`/articles/${slug}`}
           className="
@@ -76,7 +62,7 @@ export default function HomeArticleItem({
           "
         >
           ادامه مطلب
-          <span className="transition-transform duration-200 group-hover/link:translate-x-[-4px]">
+          <span className="transition-transform duration-200 group-hover/link:translate-x-[-4]">
             ←
           </span>
         </Link>

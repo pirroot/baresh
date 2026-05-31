@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { getProductsApi } from "@/services/Product/productServices"
+import { IProduct } from "@/types/ProductDto"
 
 export const metadata: Metadata = {
   title: "محصولات",
@@ -30,7 +31,7 @@ export default async function Products() {
           <div className="mt-5 w-10 h-px bg-white/30 mx-auto" />
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-          {products && products.map((product: any) => (
+          {products && products.map((product: IProduct) => (
             <Link
               key={product.id}
               href={`/products/${product.slug}`}
