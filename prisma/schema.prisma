@@ -3,55 +3,51 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
 model Product {
-  id                  String   @id @default(uuid())
+  id                  String  @id @default(uuid())
   title               String
-  slug                String   @unique
+  slug                String  @unique
   category            String
   image               String
   catalogPdf          String?
-  description         String   @db.Text
-  product_description String?  @db.Text
-  features            String[]
+  description         String
+  product_description String?
+  features            Json
 
   seoTitle       String?
-  seoDescription String?  @db.Text
-  keywords       String[]
+  seoDescription String?
+  keywords       Json
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@index([slug])
 }
 
 model Post {
   id       String @id @default(uuid())
   title    String
   slug     String @unique
-  content  String @db.Text
+  content  String
   category String
   image    String
   readTime String
 
   seoTitle       String
-  seoDescription String   @db.Text
-  keywords       String[]
+  seoDescription String
+  keywords       Json
 
   date      DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@index([slug])
 }
 
 model SiteInfo {
   id Int @id @default(1)
 
   phone          String?
-  factoryAddress String? @db.Text
+  factoryAddress String?
 
   instagram String?
   telegram  String?
@@ -65,8 +61,8 @@ model SiteInfo {
 
   aboutImage   String?
   aboutTitle   String?
-  aboutText    String? @db.Text
-  homePageText String? @db.Text
+  aboutText    String?
+  homePageText String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -76,4 +72,13 @@ model FAQ {
   id       String @id @default(uuid())
   question String
   answer   String
+}
+
+model Slider {
+  id                String   @id @default(uuid())
+  image             String
+  title             String
+  alt               String
+  short_description String
+  createdAt         DateTime @default(now())
 }

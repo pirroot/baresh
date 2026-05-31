@@ -12,6 +12,7 @@ import {
   HiBars3,
 } from 'react-icons/hi2';
 import { PiPhoneBold } from 'react-icons/pi';
+import { getHomeDataApi } from '@/services/homeServices';
 
 const NAV_LINKS = [
   { href: '/', title: 'صفحه اصلی', label: 'صفحه اصلی', icon: HiOutlineHome },
@@ -24,6 +25,7 @@ const NAV_LINKS = [
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [phone, setPhone] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -31,14 +33,18 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    getHomeDataApi().then((data) => {
+      if (data.siteInfo?.phone) setPhone(data.siteInfo.phone);
+    });
+  }, []);
+
   return (
     <header
       dir="rtl"
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 md:px-20 ${scrolled ? 'py-3' : 'py-6'
-        }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 md:px-20 ${scrolled ? 'py-3' : 'py-6'}`}
     >
-      <div className={`container mx-auto rounded-2xl transition-all duration-300 border border-white/20 shadow-2xl ${scrolled ? 'bg-white/30 backdrop-blur-md py-2 shadow-brand/5' : ' bg-white/30 backdrop-blur-sm py-4'
-        }`}>
+      <div className={`container mx-auto rounded-2xl transition-all duration-300 border border-white/20 shadow-2xl ${scrolled ? 'bg-white/30 backdrop-blur-md py-2 shadow-brand/5' : 'bg-white/30 backdrop-blur-sm py-4'}`}>
         <nav className="flex items-center justify-between px-6">
 
           <Link href="/" className="group flex items-center gap-3">
@@ -67,7 +73,7 @@ export default function Header() {
 
           <div className="flex items-center gap-4">
             <Link
-              href="tel:+989123023349"
+              href={`tel:${phone ?? '+989123023349'}`}
               className="hidden md:flex items-center gap-3 bg-zinc-900 hover:bg-brand text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 hover:shadow-[0_10px_20px_-10px_rgba(220,38,38,0.5)] group"
             >
               <span className="border-l border-white/20 pl-3">مشاوره رایگان</span>
@@ -84,8 +90,7 @@ export default function Header() {
         </nav>
       </div>
 
-      <div className={`lg:hidden absolute left-6 right-6 mt-2 transition-all duration-300 origin-top ${menuOpen ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 pointer-events-none'
-        }`}>
+      <div className={`lg:hidden absolute left-6 right-6 mt-2 transition-all duration-300 origin-top ${menuOpen ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 pointer-events-none'}`}>
         <div className="bg-white/60 backdrop-blur-sm rounded-2xl shadow-2xl border border-zinc-100 overflow-hidden">
           {NAV_LINKS.map(({ href, label, icon: Icon }) => (
             <Link

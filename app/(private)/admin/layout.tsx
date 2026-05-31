@@ -17,6 +17,7 @@ const navItems = [
   { href: "/admin/products", label: "مدیریت محصولات", icon: MdInventory },
   { href: "/admin/info", label: "مشخصات سایت", icon: Info },
   { href: "/admin/faq", label: "مدریت سوال و جواب ها", icon: FaQ },
+  { href: "/admin/slider", label: "مدریت اسلایدر", icon: FaQ },
 ];
 
 export default function AdminLayout({

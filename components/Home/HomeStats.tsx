@@ -1,5 +1,6 @@
 "use client"
 
+import { getHomeDataApi } from "@/services/homeServices"
 import { useEffect, useRef, useState } from "react"
 
 interface IHomeStatDto {
@@ -7,13 +8,6 @@ interface IHomeStatDto {
   suffix: string
   label: string
 }
-
-const HomeStatList: IHomeStatDto[] = [
-  { value: 15, suffix: "+", label: "سال سابقه" },
-  { value: 48000, suffix: "+", label: "محصول تحویل‌داده‌شده" },
-  { value: 733, suffix: "+", label: "مشتری مورد اعتماد" },
-  { value: 3, suffix: "", label: "کشور تحت پوشش" },
-]
 
 function useCountUp(target: number, duration = 2000, started: boolean) {
   const [count, setCount] = useState(0)
@@ -36,8 +30,6 @@ function useCountUp(target: number, duration = 2000, started: boolean) {
 
 function StatItem({ value, suffix, label, started }: IHomeStatDto & { started: boolean }) {
   const count = useCountUp(value, 1800, started)
-
-  // هندل کردن فرمت اعداد فارسی
   const display = count.toLocaleString("fa-IR")
 
   return (
@@ -52,10 +44,8 @@ function StatItem({ value, suffix, label, started }: IHomeStatDto & { started: b
           </span>
         )}
       </div>
-
       <div className="w-8 h-px bg-white/30 mb-3 transition-all duration-500 group-hover:w-16 group-hover:bg-white/70" />
-
-      <p className="text-white/60 text-[11px] md:text-sm font-medium tracking-wide max-w-[120] md:max-w-none">
+      <p className="text-white/60 text-[11px] md:text-sm font-medium tracking-wide">
         {label}
       </p>
     </div>
@@ -65,6 +55,21 @@ function StatItem({ value, suffix, label, started }: IHomeStatDto & { started: b
 export default function HomeStats() {
   const ref = useRef<HTMLDivElement>(null)
   const [started, setStarted] = useState(false)
+  const [statList, setStatList] = useState<IHomeStatDto[]>([
+  ])
+
+  useEffect(() => {
+    getHomeDataApi().then((data) => {
+      const info = data.siteInfo
+      if (!info) return
+      setStatList([
+        { value: info.yearsOfExperience ?? 15, suffix: "+", label: "سال سابقه" },
+        { value: info.deliveredProducts ?? 48000, suffix: "+", label: "محصول تحویل‌داده‌شده" },
+        { value: info.trustedCustomers ?? 733, suffix: "+", label: "مشتری مورد اعتماد" },
+        { value: info.coveredCountries ?? 3, suffix: "", label: "کشور تحت پوشش" },
+      ])
+    })
+  }, [])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -74,31 +79,17 @@ export default function HomeStats() {
           observer.disconnect()
         }
       },
-      { threshold: 0.1 } // حساسیت بیشتر برای موبایل
+      { threshold: 0.1 }
     )
     if (ref.current) observer.observe(ref.current)
     return () => observer.disconnect()
   }, [])
 
   return (
-    <section
-      ref={ref}
-      className="container mx-auto my-12 md:my-20 px-4 sm:px-6"
-    >
-      <div className="
-        relative overflow-hidden
-        rounded-2xl border border-white/20
-        bg-white/10 backdrop-blur-sm
-        px-6 py-8 md:px-12 md:py-10
-      ">
-        <div className="
-          relative grid 
-          grid-cols-2    
-          md:grid-cols-4 
-          gap-x-4 gap-y-10 md:gap-8 
-          text-white
-        ">
-          {HomeStatList.map((stat) => (
+    <section ref={ref} className="container mx-auto my-12 md:my-20 px-4 sm:px-6">
+      <div className="relative overflow-hidden rounded-2xl border border-white/20 bg-white/10 backdrop-blur-sm px-6 py-8 md:px-12 md:py-10">
+        <div className="relative grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-10 md:gap-8 text-white">
+          {statList.map((stat) => (
             <StatItem key={stat.label} {...stat} started={started} />
           ))}
         </div>

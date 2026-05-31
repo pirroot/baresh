@@ -1,5 +1,6 @@
 import Link from "next/link"
 import HomeArticleItem from "./HomeArticleItem"
+import { getHomeDataApi } from "@/services/homeServices"
 
 interface IHomeArticleDto {
   slug: string
@@ -10,37 +11,8 @@ interface IHomeArticleDto {
   category: string
 }
 
-const HomeArticleList: IHomeArticleDto[] = [
-  {
-    slug: "how-to-choose-faucet",
-    image: "/images/articles/a1.webp",
-    title: "چگونه شیرآلات مناسب برای منزل خود انتخاب کنیم؟",
-    excerpt:
-      "انتخاب شیرآلات مناسب به عوامل مختلفی بستگی دارد؛ از جنس بدنه گرفته تا فشار آب و سبک دکوراسیون منزل.",
-    date: "2025-03-10",
-    category: "راهنمای خرید",
-  },
-  {
-    slug: "water-saving-tips",
-    image: "/images/articles/a2.webp",
-    title: "۵ راهکار عملی برای کاهش مصرف آب در خانه",
-    excerpt:
-      "با استفاده از شیرآلات استاندارد و رعایت چند نکته ساده می‌توان مصرف آب را تا ۴۰ درصد کاهش داد.",
-    date: "2025-02-18",
-    category: "صرفه‌جویی",
-  },
-  {
-    slug: "industrial-valves-guide",
-    image: "/images/articles/a3.webp",
-    title: "راهنمای جامع شیرهای صنعتی و کاربرد آن‌ها",
-    excerpt:
-      "شیرهای صنعتی در انواع مختلف تولید می‌شوند و هر کدام برای شرایط فشار و دمای خاصی طراحی شده‌اند.",
-    date: "2025-01-05",
-    category: "صنعتی",
-  },
-]
-
-export default function HomeArticles() {
+export default async function HomeArticles() {
+  const { posts } = await getHomeDataApi()
   return (
     <section className="container mx-auto my-30">
       <div className="flex items-end justify-between mb-10">
@@ -68,7 +40,7 @@ export default function HomeArticles() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {HomeArticleList.map((article) => (
+        {posts.map((article: any) => (
           <HomeArticleItem key={article.slug} {...article} />
         ))}
       </div>

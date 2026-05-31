@@ -10,33 +10,29 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: 'No file provided' }, { status: 400 });
   }
 
-  if (!file.type.startsWith('pdf/')) {
+  if (file.type !== 'application/pdf') {
     return NextResponse.json(
-      { message: 'Only catalogPdf are allowed' },
+      { message: 'Only PDF files are allowed' },
       { status: 400 }
     );
   }
 
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
-
   const ext = path.extname(file.name) || '.pdf';
   const safeBaseName = path
     .basename(file.name, ext)
     .toLowerCase()
     .replace(/\s+/g, '-')
     .replace(/[^a-z0-9\u0600-\u06FF-]/g, '');
-
   const fileName = `${Date.now()}-${Math.floor(Math.random() * 1e9)}-${safeBaseName}${ext}`;
 
   const dir = path.join(process.cwd(), 'public', 'catalogPdf');
   await mkdir(dir, { recursive: true });
-
-  const filePath = path.join(dir, fileName);
-  await writeFile(filePath, buffer);
+  await writeFile(path.join(dir, fileName), buffer);
 
   return NextResponse.json({
-    image: `/catalogPdf/${fileName}`,
+    pdf: `/catalogPdf/${fileName}`,
     fileName,
   });
 }

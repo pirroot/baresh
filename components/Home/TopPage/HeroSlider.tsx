@@ -6,24 +6,16 @@ import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
 import { BiLeftArrow, BiRightArrow } from "react-icons/bi";
 import "./heroslider.css"
-
-export interface Slide {
-  id: number;
-  image: string;
-  title: string;
-  subtitle: string;
-  href: string;
-}
+import { ISlider } from "@/types/SliderDto";
 
 export interface HeroSliderProps {
-  slides: Slide[];
+  slides: ISlider[];
   autoplayDelay?: number;
   loop?: boolean;
   showDots?: boolean;
   showArrows?: boolean;
 }
 
-// ─── Component ────────────────────────────────────────────────────────────────
 export default function HeroSlider({
   slides,
   autoplayDelay = 4000,
@@ -85,7 +77,7 @@ export default function HeroSlider({
               <div className="hero-slider__image-wrapper">
                 <Image
                   src={slide.image}
-                  alt={slide.title}
+                  alt={slide.alt}
                   fill
                   priority={index === 0}
                   className="hero-slider__image"
@@ -95,10 +87,7 @@ export default function HeroSlider({
 
               <div className="hero-slider__content">
                 <h2 className="hero-slider__title">{slide.title}</h2>
-                <p className="hero-slider__subtitle">{slide.subtitle}</p>
-                <a href={slide.href} className="hero-slider__cta">
-                  مشاهده
-                </a>
+                <p className="hero-slider__subtitle">{slide.short_description}</p>
               </div>
             </div>
           ))}

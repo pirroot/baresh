@@ -1,3 +1,4 @@
+import { getHomeDataApi } from "@/services/homeServices"
 import HomeProductItem from "./HomeProductItem"
 
 interface IHomeProductDto {
@@ -6,33 +7,11 @@ interface IHomeProductDto {
   slug: string
 }
 
-const HomeProductList: IHomeProductDto[] = [
-  {
-    image: "/images/products/p1.webp",
-    title: "شیر فلکه صنعتی",
-    slug: "شیرآلات",
-  },
-  {
-    image: "/images/products/p2.webp",
-    title: "پمپ آب فشار قوی",
-    slug: "پمپ‌ها",
-  },
-  {
-    image: "/images/products/p3.webp",
-    title: "اتصالات مانیفولد",
-    slug: "اتصالات",
-  },
-  {
-    image: "/images/products/p4.webp",
-    title: "شیر برقی دو راهه",
-    slug: "شیرآلات",
-  },
-]
 
-export default function HomeProducts() {
+export default async function HomeProducts() {
+  const { products } = await getHomeDataApi()
   return (
     <section className="container mx-auto my-30">
-      {/* هدر */}
       <div className="flex flex-col items-center text-center mb-10">
         <p className="text-white/40 text-xs tracking-widest uppercase mb-3">
           محصولات ما
@@ -43,9 +22,8 @@ export default function HomeProducts() {
         <div className="mt-4 w-10 h-px bg-white/30" />
       </div>
 
-      {/* گرید محصولات */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {HomeProductList.map((product) => (
+        {products.map((product) => (
           <HomeProductItem key={product.title} {...product} />
         ))}
       </div>

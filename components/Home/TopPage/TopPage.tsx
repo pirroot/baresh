@@ -1,47 +1,11 @@
-import HeroSlider, { Slide } from "@/components/Home/TopPage/HeroSlider";
+import HeroSlider from "@/components/Home/TopPage/HeroSlider";
 import TypeitHome from "@/components/Home/Typeit/Typeit-Home";
+import { getHomeDataApi } from "@/services/homeServices";
 import Link from "next/link";
 
-const sliderList: Slide[] = [
-  {
-    id: 1,
-    image: "/images/products/p1.webp",
-    title: "ظرفشویی فنری بارش",
-    subtitle: "شاوری بارش مدل ونوس تک کاره رنگ سفید طلایی",
-    href: "#",
-  },
-  {
-    id: 2,
-    image: "/images/products/p2.webp",
-    title: "شیر روشویی مدل لاوندر",
-    subtitle: "تنه و قطعات تماما برنجی",
-    href: "#",
-  },
-  {
-    id: 3,
-    image: "/images/products/p3.webp",
-    title: "علم دوش دو کاره",
-    subtitle: "دکمه ای مکانیزم آب و هوا درجه",
-    href: "#",
-  },
-  {
-    id: 4,
-    image: "/images/products/p4.webp",
-    title: "شیر روشویی مدل ایلیا",
-    subtitle: "وزن ششصد گرم (تنه بدون قطعات)",
-    href: "#",
-  },
-  {
-    id: 5,
-    image: "/images/products/p5.webp",
-    title: "شیر دوش مدل لاوندر",
-    subtitle: "تنه و قطعات تماما برنجی",
-    href: "#",
-  },
-];
-
-
-export default function () {
+export default async function () {
+  const { sliders } = await getHomeDataApi();
+  const { siteInfo } = await getHomeDataApi();
   return (
     <section className="container mx-auto grid lg:grid-cols-2 items-center gap-20 mt-50 mb-20 text-white">
 
@@ -59,9 +23,7 @@ export default function () {
           </h1>
         </div>
 
-        <p className="text-gray-400 text-lg leading-10 text-justify max-sm:px-5">
-          ما در «بارش» با بهره‌گیری از تکنولوژی‌های پیشرفته تولید و متریال‌های استاندارد، نسل جدیدی از شیرآلات ساختمانی را با طراحی‌های مدرن و ارگونومیک ارائه می‌دهیم. محصولات ما، ترکیبی دقیق از دوام صنعتی و زیبایی‌شناسی هنری برای پروژه‌های معماری و مسکونی هستند. با نوآوری‌های بارش، استانداردهای جدیدی را در کیفیت جریان آب و تجهیزات بهداشتی ساختمان تجربه کنید. انتخاب بارش، یعنی انتخاب اصالت و دقت در هر قطره.
-        </p>
+        <p className="text-gray-400 text-lg leading-10 text-justify max-sm:px-5">{siteInfo?.homePageText}</p>
 
         <div className="flex gap-5 max-sm:justify-around">
           <Link href={'/products'} title="نمایش محصولات بارش" className="bg-linear-700 from-red-400 bg-red-950 hover:bg-red-800 text-white px-8 py-4 rounded-xl font-medium transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)]">
@@ -75,15 +37,7 @@ export default function () {
 
       <div className="relative flex justify-center">
         <div className="absolute inset-1 bg-red-600/15 blur-[120px] rounded-full" />
-        {/* <Image
-          src="/images/products/p1.webp"
-          alt="شیرآلات هوشمند بارش"
-          width={900}
-          height={900}
-          className="relative z-10 drop-shadow-2xl hover:scale-105 transition-transform duration-700"
-          priority
-        /> */}
-        <HeroSlider slides={sliderList} />
+        <HeroSlider slides={sliders} />
       </div>
     </section >)
 }
