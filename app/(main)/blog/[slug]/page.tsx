@@ -1,5 +1,3 @@
-// app/blog/[slug]/page.tsx
-
 import type { Metadata, ResolvingMetadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
@@ -21,7 +19,7 @@ export async function generateMetadata(
   return {
     title: post.seoTitle || `${post.title} | وبلاگ بارش`,
     description: post.seoDescription,
-    keywords: post.keywords,
+    keywords: post.keywords as string[] | null,
     openGraph: {
       title: post.title,
       description: post.seoDescription,
