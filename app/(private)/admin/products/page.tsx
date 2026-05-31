@@ -1,6 +1,4 @@
-import {
-  MdEdit,
-} from "react-icons/md";
+export const dynamic = 'force-dynamic'
 import AddProductModal from "@/components/Admin/Product/AddProductModal";
 import { getProductAdminApi } from "@/services/admin/adminServices";
 import { IProduct } from "@/types/ProductDto";

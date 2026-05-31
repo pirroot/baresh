@@ -1,35 +1,37 @@
-import { ISlider } from '@/types/SliderDto';
-import { IProduct } from '@/types/ProductDto';
-import { IPost } from '@/types/PostDto';
-import { ISiteInfo } from '@/types/SiteInfoDto';
+import { prisma } from '@/lib/prisma';
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+export const getHomeDataApi = async () => {
+  const [sliders, products, posts, siteInfo] = await Promise.all([
+    prisma.slider.findMany(),
+    prisma.product.findMany({
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        image: true,
+        category: true,
+        description: true,
+      },
+    }),
+    prisma.post.findMany({
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        content: true,
+        category: true,
+        image: true,
+        readTime: true,
+        seoTitle: true,
+        seoDescription: true,
+        keywords: true,
+        date: true,
+        updatedAt: true,
+      },
+      orderBy: { date: 'desc' },
+    }),
+    prisma.siteInfo.findFirst(),
+  ]);
 
-export interface IHomeData {
-  sliders: ISlider[];
-  products: Pick<
-    IProduct,
-    'id' | 'title' | 'slug' | 'image' | 'category' | 'description'
-  >[];
-  posts: Pick<
-    IPost,
-    | 'id'
-    | 'title'
-    | 'slug'
-    | 'content'
-    | 'category'
-    | 'image'
-    | 'readTime'
-    | 'seoTitle'
-    | 'seoDescription'
-    | 'keywords'
-    | 'date'
-    | 'updatedAt'
-  >[];
-  siteInfo: ISiteInfo | null;
-}
-
-export const getHomeDataApi = async (): Promise<IHomeData> => {
-  const res = await fetch(`${baseUrl}/api/home`, { cache: 'no-store' });
-  return res.json();
+  return { sliders, products, posts, siteInfo };
 };
