@@ -29,14 +29,13 @@ export async function POST(req: NextRequest) {
 
   const fileName = `${Date.now()}-${Math.floor(Math.random() * 1e9)}-${safeBaseName}${ext}`;
 
-  const dir = path.join(process.cwd(), 'public', 'info');
+  const dir = path.join('/storeage', 'info');
   await mkdir(dir, { recursive: true });
-
   const filePath = path.join(dir, fileName);
   await writeFile(filePath, buffer);
 
   return NextResponse.json({
-    image: `/info/${fileName}`,
+    image: `/api/images/info/${fileName}`,
     fileName,
   });
 }

@@ -19,20 +19,24 @@ export async function POST(req: NextRequest) {
 
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
+
   const ext = path.extname(file.name) || '.pdf';
   const safeBaseName = path
     .basename(file.name, ext)
     .toLowerCase()
     .replace(/\s+/g, '-')
     .replace(/[^a-z0-9\u0600-\u06FF-]/g, '');
+
   const fileName = `${Date.now()}-${Math.floor(Math.random() * 1e9)}-${safeBaseName}${ext}`;
 
-  const dir = path.join(process.cwd(), 'public', 'catalogPdf');
+  // ✅ تغییر
+  const dir = path.join('/storeage', 'catalogPdf');
   await mkdir(dir, { recursive: true });
   await writeFile(path.join(dir, fileName), buffer);
 
   return NextResponse.json({
-    pdf: `/catalogPdf/${fileName}`,
+    // ✅ تغییر
+    pdf: `/api/images/catalogPdf/${fileName}`,
     fileName,
   });
 }
