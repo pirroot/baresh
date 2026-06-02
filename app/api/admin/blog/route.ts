@@ -3,7 +3,9 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
   try {
-    const result = await prisma.post.findMany({ orderBy: { date: 'desc' } });
+    const result = await prisma.post.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
     return NextResponse.json({ result });
   } catch {
     return NextResponse.json({ error: 'خطایی به وجود آمد.' }, { status: 500 });

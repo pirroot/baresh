@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -20,7 +20,7 @@ model Product {
 
   seoTitle       String?
   seoDescription String?
-  keywords       Json
+  keywords       Json?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -35,11 +35,11 @@ model Post {
   image    String
   readTime String
 
-  seoTitle       String
-  seoDescription String
-  keywords       Json
+  seoTitle       String?
+  seoDescription String?
+  keywords       Json?
 
-  date      DateTime @default(now())
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 

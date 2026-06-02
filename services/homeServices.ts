@@ -1,37 +1,13 @@
-import { prisma } from '@/lib/prisma';
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
 export const getHomeDataApi = async () => {
-  const [sliders, products, posts, siteInfo] = await Promise.all([
-    prisma.slider.findMany(),
-    prisma.product.findMany({
-      select: {
-        id: true,
-        title: true,
-        slug: true,
-        image: true,
-        category: true,
-        description: true,
-      },
-    }),
-    prisma.post.findMany({
-      select: {
-        id: true,
-        title: true,
-        slug: true,
-        content: true,
-        category: true,
-        image: true,
-        readTime: true,
-        seoTitle: true,
-        seoDescription: true,
-        keywords: true,
-        date: true,
-        updatedAt: true,
-      },
-      orderBy: { date: 'desc' },
-    }),
-    prisma.siteInfo.findFirst(),
-  ]);
+  const res = await fetch(`${baseUrl}/api/home`, {
+    cache: 'no-store',
+  });
 
-  return { sliders, products, posts, siteInfo };
+  if (!res.ok) {
+    throw new Error('Failed to fetch home data');
+  }
+
+  return res.json();
 };

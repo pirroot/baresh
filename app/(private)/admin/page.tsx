@@ -3,7 +3,6 @@ import { MdInventory, MdArticle, MdQuestionAnswer } from 'react-icons/md'
 
 export default async function AdminPage() {
   const data = await getDashboardAdminApi()
-
   const stats = [
     {
       label: 'محصولات',
@@ -37,7 +36,7 @@ export default async function AdminPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
-        {stats.map(({ label, value, sub, icon: Icon, color }) => (
+        {stats && stats.map(({ label, value, sub, icon: Icon, color }) => (
           <div key={label} className="bg-gray-900 border border-white/10 rounded-xl p-5">
             <div className="flex items-center justify-between mb-3">
               <span className="text-white/50 text-sm">{label}</span>

@@ -14,8 +14,6 @@ export const metadata: Metadata = {
   },
 }
 
-const ITEMS_PER_PAGE = 6
-
 interface IBlogPageProps {
   searchParams: Promise<{ page?: string }>
 }
@@ -37,7 +35,7 @@ export default async function BlogPage({ searchParams }: IBlogPageProps) {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
-          {articles && articles.map((article: IPost) => (
+          {articles.result && articles.result.map((article: IPost) => (
             <article
               key={article.id}
               className="overflow-hidden flex flex-col border border-white/20 rounded-2xl bg-white/10 backdrop-blur-sm transition-all duration-300 hover:bg-white/15 hover:border-white/40 hover:-translate-y-1 group"
@@ -66,7 +64,7 @@ export default async function BlogPage({ searchParams }: IBlogPageProps) {
               <div className="flex flex-col gap-3 p-5 flex-1">
                 <div className="flex items-center gap-3 text-white/30 text-xs">
                   <time dateTime={article.date}>
-                    {new Date(article.date).toLocaleDateString("fa-IR", { year: "numeric", month: "long", day: "numeric" })}
+                    {new Date(article.updatedAt).toLocaleDateString("fa-IR", { year: "numeric", month: "long", day: "numeric" })}
                   </time>
                   <span>·</span>
                   <span>{article.readTime || '5 دقیقه'} مطالعه</span>

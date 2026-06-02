@@ -9,3 +9,8 @@ export const getProductBySlug = async (slug: string) => {
   const data = await fetch(`${baseUrl}/api/products/${slug}`);
   return await data.json();
 };
+
+export const getBlogBySlug = async (slug: string) => {
+  const data = await fetch(`${baseUrl}/api/blog/${slug}`);
+  return await data.json();
+};

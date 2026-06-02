@@ -8,9 +8,9 @@ export async function GET(req: NextRequest) {
       prisma.post.count(),
       prisma.fAQ.count(),
       prisma.post.findMany({
-        orderBy: { date: 'desc' },
+        orderBy: { createdAt: 'desc' },
         take: 5,
-        select: { id: true, title: true, date: true, category: true },
+        select: { id: true, title: true, createdAt: true, category: true },
       }),
     ]);
 

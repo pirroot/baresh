@@ -45,7 +45,6 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   const body = await req.json();
   const { id } = body ?? {};
-  console.log(id);
   try {
     if (!id) {
       return NextResponse.json({ error: 'اسلاگ وجود ندارد.' }, { status: 400 });
