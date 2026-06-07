@@ -57,7 +57,7 @@ export default function Header() {
             />
           </Link>
 
-          <ul className="hidden lg:flex items-center gap-2">
+          <ul className="max-lg:hidden flex items-center gap-2">
             {NAV_LINKS.map(({ href, label }) => (
               <li key={href}>
                 <Link
@@ -71,18 +71,18 @@ export default function Header() {
             ))}
           </ul>
 
-          <div className="flex items-center gap-4">
+          <div className=" items-center gap-4">
             <Link
               href={`tel:${phone ?? '+989123023349'}`}
-              className="hidden md:flex items-center gap-3 bg-zinc-900 hover:bg-brand text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 hover:shadow-[0_10px_20px_-10px_rgba(220,38,38,0.5)] group"
+              className="max-lg:hidden flex items-center gap-3 bg-zinc-900 hover:bg-brand text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 hover:shadow-[0_10px_20px_-10px_rgba(220,38,38,0.5)] group"
             >
               <span className="border-l border-white/20 pl-3">مشاوره رایگان</span>
-              <PiPhoneBold size={18} className="group-hover:rotate-12 transition-transform" />
+              <PiPhoneBold size={18} className="group-hover:rotate-12 transition-transform text-white" />
             </Link>
 
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="lg:hidden p-2 text-zinc-900 hover:bg-zinc-100 rounded-lg transition"
+              className="lg:hidden p-2 text-zinc-900 bg-zinc-400/80 rounded-lg transition"
             >
               {menuOpen ? <HiOutlineXMark size={28} /> : <HiBars3 size={28} />}
             </button>

@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <section className="h-screen flex flex-col items-center justify-center gap-7">
+    <section className="h-screen text-white flex flex-col items-center justify-center gap-7">
       <div className="flex gap-2.5 items-center">
         {[0, 1, 2].map((i) => (
           <span
@@ -22,10 +22,10 @@ export default function Loading() {
       </div>
 
       <span
-        className="font-mono text-[11px] tracking-[0.18em] uppercase text-muted-foreground"
+        className="font-mono text-[11px] tracking-[0.18em] uppercase text-4xl text-muted-foreground"
         style={{ fontWeight: 300 }}
       >
-        loading
+        درحال بارگذاری ....
       </span>
 
       <style>{`

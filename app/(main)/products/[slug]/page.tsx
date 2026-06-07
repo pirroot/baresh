@@ -1,4 +1,5 @@
 import { getProductBySlug } from "@/services/Product/productServices"
+import { ChevronDown } from "lucide-react"
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
@@ -91,12 +92,20 @@ export default async function ProductDetail({ params }: IProductDetailProps) {
         </div>
 
         {product.product_description && (
-          <div className="mt-10 bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-md">
-            <h3 className="text-lg font-semibold mb-4 text-white/90">توضیحات محصول {product.title}</h3>
-            <p className="leading-12 text-justify">
+          <details className="mt-10 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-md overflow-hidden group">
+
+            <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
+              <h3 className="text-lg font-semibold text-white/90">
+                <span className="text-gray-300">توضیحات محصول : </span>{product.title}
+              </h3>
+              <ChevronDown className="w-5 h-5 text-white/60 transition-transform duration-300 group-open:rotate-180 shrink-0 mr-2" />
+            </summary>
+
+            <p className="px-6 pb-6 leading-8 text-justify text-white/80">
               {product.product_description}
             </p>
-          </div>
+
+          </details>
         )}
       </section>
     </main>
