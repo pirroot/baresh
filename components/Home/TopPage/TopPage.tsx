@@ -9,9 +9,9 @@ export default async function TopPage() {
     <section className="container mx-auto grid lg:grid-cols-2 items-center gap-20 mt-50 mb-20 text-white">
       <div className="space-y-10 max-sm:text-center">
         <div className="">
-          <span className="text-red-600 font-bold tracking-widest uppercase text-sm">
+          <h3 className="text-red-600 font-bold tracking-widest uppercase text-sm">
             بارش | نوآوری در جریان
-          </span>
+          </h3>
 
           <h1 className="text-6xl  font-extrabold leading-tight">
             شرکت صنعتی شیرآلات <br /><span className="text-red-500">بارش؛ </span><br />

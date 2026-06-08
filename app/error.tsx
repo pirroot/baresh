@@ -8,7 +8,7 @@ export default function ErrorPage({
   reset: () => void;
 }) {
   return (
-    <section className="p-50 text-center flex-col space-y-7 justify-center text-white/90">
+    <section className="p-50 mt-50 text-center flex-col space-y-7 justify-center text-white/90">
       <h1 className="">خطا!</h1>
       <p className="">
         متاسفانه یک مشکلی پیش آمده است:
