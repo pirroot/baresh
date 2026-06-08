@@ -49,14 +49,16 @@ const AddProductModal = () => {
 
     await createProductAdminApi({
       ...data,
+      seoTitle: data.title,
+
       slug: data.title
         .toLowerCase()
         .trim()
         .replace(/\s+/g, "-")
         .replace(/[^a-z0-9\u0600-\u06FF-]/g, "")
         .slice(0, 60) + `-${Math.floor(Math.random() * 10000)}`,
-      features: (data.features as unknown as string).split(',').map((k) => k.trim()).filter((k) => k !== ''),
-      keywords: (data.keywords as unknown as string).split(',').map((k) => k.trim()).filter((k) => k !== ''),
+      features: (data.features as unknown as string).split('-').map((k) => k.trim()).filter((k) => k !== ''),
+      keywords: (data.keywords as unknown as string).split('-').map((k) => k.trim()).filter((k) => k !== ''),
       image: imagePath,
       catalogPdf: pdfPath,
     });
@@ -76,11 +78,11 @@ const AddProductModal = () => {
 
       {open && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
           onClick={() => isOpen(false)}
         >
           <div
-            className="relative w-full max-w-xl mx-4 bg-zinc-700/40 text-white rounded-2xl shadow-xl overflow-hidden"
+            className="relative w-full max-w-xl mx-4 bg-zinc-900 border-2 text-white rounded-2xl shadow-xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
@@ -120,29 +122,7 @@ const AddProductModal = () => {
                   className={inputClass}
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className={labelClass}>عکس محصول</label>
-                  <input
-                    type="file"
-                    accept='image/*'
-                    onChange={upload_Image_file}
-                    className={inputClass}
-                    required
-                  />
-                </div>
 
-                <div>
-                  <label className={labelClass}>کاتالوگ محصول</label>
-                  <input
-                    type="file"
-                    accept='application/pdf'
-                    onChange={upload_Pdf_file}
-                    className={inputClass}
-                  />
-                </div>
-
-              </div>
 
               <div>
                 <label className={labelClass}>توضیح کامل محصول</label>
@@ -175,23 +155,34 @@ const AddProductModal = () => {
                 </div>
               </div>
 
+              <div>
+                <label className={labelClass}>توضیح SEO</label>
+                <input
+                  type="textarea"
+                  {...register('seoDescription', { required: true })}
+                  placeholder="برای بهبود فروش"
+                  className={inputClass}
+                />
+              </div>
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className={labelClass}>عنوان SEO</label>
+                  <label className={labelClass}>عکس محصول</label>
                   <input
-                    type="text"
-                    {...register('seoTitle', { required: true })}
-                    placeholder="برای بهبود فروش"
-                    className={inputClass}
+                    type="file"
+                    accept='image/*'
+                    onChange={upload_Image_file}
+                    className={`${inputClass} py-7`}
+                    required
                   />
                 </div>
                 <div>
-                  <label className={labelClass}>توضیح SEO</label>
+                  <label className={labelClass}>کاتالوگ محصول</label>
                   <input
-                    type="text"
-                    {...register('seoDescription', { required: true })}
-                    placeholder="برای بهبود فروش"
-                    className={inputClass}
+                    type="file"
+                    accept='application/pdf'
+                    onChange={upload_Pdf_file}
+                    className={`${inputClass} py-7`}
                   />
                 </div>
               </div>

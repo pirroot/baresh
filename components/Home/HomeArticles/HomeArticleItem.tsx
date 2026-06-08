@@ -18,7 +18,7 @@ export default function HomeArticleItem({ article }: Props) {
       hover:bg-white/15 hover:border-white/40 hover:-translate-y-1
       group
     ">
-      <Link href={`/articles/${slug}`} tabIndex={-1} aria-hidden="true">
+      <Link href={`/blog/${slug}`} tabIndex={-1} aria-hidden="true">
         <div className="relative w-full aspect-video overflow-hidden rounded-t-2xl">
           <Image
             src={image}
@@ -44,7 +44,7 @@ export default function HomeArticleItem({ article }: Props) {
 
         <h3 className="text-white/90 text-base font-semibold leading-snug line-clamp-2">
           <Link
-            href={`/articles/${slug}`}
+            href={`/blog/${slug}`}
             className="hover:text-white transition-colors duration-200"
           >
             {title}
@@ -52,7 +52,7 @@ export default function HomeArticleItem({ article }: Props) {
         </h3>
 
         <Link
-          href={`/articles/${slug}`}
+          href={`/blog/${slug}`}
           className="
             inline-flex items-center gap-2
             text-white/60 text-xs font-medium

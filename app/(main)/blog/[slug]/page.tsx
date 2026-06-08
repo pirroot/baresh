@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Image from "next/image"
+import { decode } from 'html-entities'
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { getBlogBySlug } from "@/services/Product/productServices"
@@ -8,130 +9,175 @@ interface IProps {
   params: Promise<{ slug: string }>
 }
 
-export async function generateMetadata(
-  { params }: IProps,
-): Promise<Metadata> {
+
+export async function generateMetadata({ params }: IProps): Promise<Metadata> {
   const { slug } = await params
-  console.log(slug);
   const post = await getBlogBySlug(slug)
 
   if (!post) return { title: "مقاله پیدا نشد" }
+
+  const imageUrl = Array.isArray(post.image) ? post.image[0] : post.image
 
   return {
     title: post.seoTitle || `${post.title} | وبلاگ بارش`,
     description: post.seoDescription,
     keywords: post.keywords as string[] | null,
+    alternates: {
+      canonical: `/blog/${slug}`,
+    },
     openGraph: {
       title: post.title,
-      description: post.content,
+      description: post.seoDescription ?? post.content?.slice(0, 160),
       type: "article",
-      publishedTime: post.createdAt,
-      images: [post.image],
+      publishedTime: new Date(post.createdAt).toISOString(),
+      images: [{ url: imageUrl, width: 1200, height: 630, alt: post.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.seoTitle || post.title,
+      description: post.seoDescription ?? "",
+      images: [imageUrl],
     },
   }
 }
+
+
+function BlogMeta({
+  category,
+  createdAt,
+  readTime,
+}: {
+  category: string
+  createdAt: string | Date
+  readTime: number
+}) {
+  const date = createdAt instanceof Date ? createdAt : new Date(createdAt)
+
+  return (
+    <div className="flex flex-wrap items-center gap-3 text-white/40 text-xs mb-6">
+      <span className="bg-white/10 border border-white/10 px-3 py-1 rounded-full text-white/80">
+        {category}
+      </span>
+      <span aria-hidden>•</span>
+      <time dateTime={date.toISOString()}>
+        {date.toLocaleDateString("fa-IR", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })}
+      </time>
+      <span aria-hidden>•</span>
+      <span>زمان مطالعه: {readTime} دقیقه</span>
+    </div>
+  )
+}
+
+function BlogAuthor() {
+  return (
+    <div className="flex items-center gap-4">
+      <div
+        className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center font-bold text-white/40"
+        aria-hidden
+      >
+        B
+      </div>
+      <div>
+        <p className="text-sm font-semibold">تجروبیات بارش</p>
+        <p className="text-xs text-white/40">مرجع تخصصی شیرآلات بهداشتی و خانگی</p>
+      </div>
+    </div>
+  )
+}
+
 
 export default async function BlogDetail({ params }: IProps) {
   const { slug } = await params
   const post = await getBlogBySlug(slug)
 
-
   if (!post) notFound()
 
+  const publishedDate = new Date(post.createdAt).toISOString()
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.seoDescription,
+    image: post.image,
+    datePublished: publishedDate,
+    author: {
+      "@type": "Organization",
+      name: "تحریریه بارش صنعتی",
+    },
+  }
+
+
   return (
-    <main dir="rtl" className="text-white mt-20 min-h-screen">
-      <article className="container mx-auto pt-16 pb-24 px-4 max-w-4xl">
+    <>
+      {/* JSON-LD structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
-        <nav className="flex items-center gap-2 text-xs text-white/30 mb-10">
-          <Link href="/" className="hover:text-white transition-colors">خانه</Link>
-          <span>/</span>
-          <Link href="/blog" className="hover:text-white transition-colors">وبلاگ</Link>
-          <span>/</span>
-          <span className="text-white/60 truncate">{post.title}</span>
-        </nav>
+      <main dir="rtl" className="text-white mt-20 min-h-screen">
+        <article className="container mx-auto pt-16 pb-24 px-4 max-w-4xl">
 
-        <header className="mb-12">
-          <div className="flex items-center gap-3 text-white/40 text-xs mb-6">
-            <span className="bg-white/10 border border-white/10 px-3 py-1 rounded-full text-white/80">
-              {post.category}
-            </span>
+          {/* Breadcrumb */}
+          <nav aria-label="breadcrumb" className="flex items-center gap-2 text-xs text-white/30 mb-10">
+            <Link href="/" className="hover:text-white transition-colors">خانه</Link>
+            <span aria-hidden>/</span>
+            <Link href="/blog" className="hover:text-white transition-colors">وبلاگ</Link>
+            <span aria-hidden>/</span>
+            <span className="text-white/60 truncate" aria-current="page">{post.title}</span>
+          </nav>
 
-            <span>•</span>
+          {/* Header */}
+          <header className="mb-12">
+            <BlogMeta
+              category={post.category}
+              createdAt={post.createdAt}
+              readTime={post.readTime}
+            />
+            <h1 className="text-2xl md:text-5xl font-bold leading-tight mb-8 bg-linear-to-b from-white to-white/60 bg-clip-text text-transparent">
+              {post.title}
+            </h1>
+          </header>
 
-            {(() => {
-              const createdDate =
-                post.createdAt instanceof Date
-                  ? post.createdAt
-                  : new Date(post.createdAt)
-
-              return (
-                <time dateTime={createdDate.toISOString()}>
-                  {createdDate.toLocaleDateString("fa-IR", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </time>
-              )
-            })()}
-
-            <span>•</span>
-            <span>زمان مطالعه: {post.readTime}</span>
+          {/* Hero image */}
+          <div className="relative aspect-video mb-16 rounded-3xl overflow-hidden border border-white/10 shadow-2xl group">
+            <Image
+              src={post.image}
+              alt={post.title}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1000px) 80vw, 896px"
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
+              priority
+            />
+            <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent" />
           </div>
 
-          <h1 className="text-3xl md:text-5xl font-bold leading-tight mb-8 bg-linear-to-b from-white to-white/60 bg-clip-text text-transparent">
-            {post.title}
-          </h1>
-        </header>
+          {/* Content */}
+          <div className="relative">
+            <div className="absolute -right-20 top-0 w-64 h-64 bg-white/5 blur-[100px] rounded-full pointer-events-none" aria-hidden />
+            <div
+              className="prose prose-invert prose-lg max-w-none [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:text-white [&_p]:text-white/80"
+              dangerouslySetInnerHTML={{ __html: decode(post.content) }}
+            /></div>
 
-        <div className="relative aspect-video mb-16 rounded-3xl overflow-hidden border border-white/10 shadow-2xl group">
-          <Image
-            src={post.image}
-            alt={post.title}
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
-            priority
-          />
-          <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
-        </div>
-
-        <div className="relative">
-          <div className="absolute -right-20 top-0 w-64 h-64 bg-white/5 blur-[100px] rounded-full pointer-events-none" />
-          <div
-            className="
-              prose prose-invert prose-p:text-white/70 prose-p:leading-8 prose-p:text-justify text-justify leading-10
-              prose-headings:text-white prose-headings:font-bold prose-h2:text-2xl prose-h2:mt-12
-              prose-blockquote:border-r-4 prose-blockquote:border-white/20 prose-blockquote:bg-white/5
-              prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-l-xl
-              prose-strong:text-white prose-strong:font-bold
-              max-w-none
-            "
-            dangerouslySetInnerHTML={{ __html: post.content }}
-          />
-        </div>
-
-        <footer className="mt-20 pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center font-bold text-white/40">
-              B
-            </div>
-            <div>
-              <p className="text-sm font-semibold">تحریریه بارش صنعتی</p>
-              <p className="text-xs text-white/40">مرجع تخصصی شیرآلات و اتصالات</p>
-            </div>
-          </div>
-
-          <div className="flex gap-3">
+          {/* Footer */}
+          <footer className="mt-20 pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
+            <BlogAuthor />
             <Link
               href="/blog"
               className="px-6 py-2 border border-white/10 rounded-xl text-sm hover:bg-white/5 transition-colors"
             >
               بازگشت به وبلاگ
             </Link>
-          </div>
-        </footer>
+          </footer>
 
-      </article>
-    </main>
+        </article>
+      </main>
+    </>
   )
 }

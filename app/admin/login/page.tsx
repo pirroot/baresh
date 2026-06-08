@@ -1,20 +1,30 @@
 "use client"
 import { useState } from "react"
-import { redirect } from "next/navigation"
+import { useRouter } from "next/navigation"
 
 export default function AdminLogin() {
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
+  const router = useRouter()
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    setLoading(true)
+    setError("")
+
     const res = await fetch("/api/admin/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ password }),
     })
-    if (res.ok) redirect('/admin')
-    else setError("رمز اشتباهه")
+
+    if (res.ok) {
+      router.push("/admin")
+    } else {
+      setError("رمز اشتباهه")
+      setLoading(false)
+    }
   }
 
   return (
@@ -27,10 +37,15 @@ export default function AdminLogin() {
           placeholder="رمز عبور"
           className="border px-4 py-2 rounded-lg"
           autoFocus
+          disabled={loading}
         />
         {error && <p className="text-red-500 text-sm">{error}</p>}
-        <button type="submit" className="bg-black text-white py-2 rounded-lg">
-          ورود
+        <button
+          type="submit"
+          disabled={loading}
+          className="bg-black text-white py-2 rounded-lg disabled:opacity-50 transition-opacity"
+        >
+          {loading ? "در حال ورود..." : "ورود"}
         </button>
       </form>
     </section>

@@ -19,7 +19,7 @@ export default async function HomeArticles() {
         </div>
 
         <Link
-          href="/articles"
+          href="/blog"
           className="
             text-white/50 text-sm
             border border-white/20 rounded-xl px-5 py-2
