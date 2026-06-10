@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import raviFont from '@/lib/font';
 import './globals.css';
+import Script from "next/script";
 import ConditionalLayout from '@/components/ConditionalLayout';
 
 export const metadata: Metadata = {
@@ -55,7 +56,7 @@ export const metadata: Metadata = {
     siteName: 'شیرآلات بارش',
     images: [
       {
-        url: '/images/og-image.webp', // ← تصویر OG اختصاصی بسازید (1200×630)
+        url: '/images/logo.webp', // ← تصویر OG اختصاصی بسازید (1200×630)
         width: 1200,
         height: 630,
         alt: 'کارخانه تولیدی شیرآلات بارش - شیرآلات خانگی باکیفیت',
@@ -108,11 +109,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fa" dir="rtl" className={`scroll-smooth ${raviFont.variable} `}>
+    <html lang="fa" dir="rtl" className={`scroll-smooth ${raviFont.variable}`}>
       <body className="bg-[#2c2c2c] bg-grid">
-        <ConditionalLayout >
+        <ConditionalLayout>
           {children}
         </ConditionalLayout>
+
+        {/* Google tag (gtag.js) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-ZV24KTY6KL"
+          strategy="afterInteractive"
+        />
+
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-ZV24KTY6KL');
+          `}
+        </Script>
       </body>
     </html>
   );

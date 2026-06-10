@@ -14,7 +14,7 @@ export default async function TopPage() {
           </h3>
 
           <h1 className="text-6xl  font-extrabold leading-tight">
-            شرکت صنعتی شیرآلات <br /><span className="text-red-500">بارش؛ </span><br />
+            شرکت شیرآلات خانگی  <br /><span className="text-red-500">بارش؛ </span><br />
             <span className="text-5xl text-transparent bg-clip-text bg-linear-to-r from-red-500 to-red-300">
               <TypeitHome />
             </span>
@@ -24,10 +24,10 @@ export default async function TopPage() {
         <p className="text-gray-400 text-lg leading-10 text-justify max-sm:px-5">{siteInfo?.homePageText}</p>
 
         <div className="flex gap-5 max-sm:justify-around">
-          <Link href={'/products'} title="نمایش محصولات بارش" className="bg-linear-700 from-red-400 bg-red-950 hover:bg-red-800 text-white px-8 py-4 rounded-xl font-medium transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)]">
+          <Link href={'/products'} title="نمایش محصولات بارش" className="bg-linear-700 from-red-400 bg-red-700 hover:bg-red-800 text-white px-8 py-4 rounded-xl font-medium transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)]">
             مشاهده محصولات بارش
           </Link>
-          <Link href={'/contact-us'} title="نمایش محصولات بارش" className="bg-linear-700 border-2 border-white/80 text-white px-8 py-4 rounded-xl font-medium transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)]">
+          <Link href={'/contact-us'} title="نمایش محصولات بارش" className="bg-linear-700 border-2 border-white/80 text-white px-8 py-4 rounded-xl font-medium hover:bg-white hover:text-black transition-all duration-300">
             تماس با ما
           </Link>
         </div>

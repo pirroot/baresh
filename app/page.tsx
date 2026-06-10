@@ -8,6 +8,7 @@ import TopPage from "@/components/Home/TopPage/TopPage";
 export default function Home() {
   return (
     <main>
+      {/* <ScrollVideo /> */}
       <TopPage />
       <HomeStats />
       <HomeCategories />

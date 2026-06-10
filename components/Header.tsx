@@ -42,9 +42,9 @@ export default function Header() {
   return (
     <header
       dir="rtl"
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 md:px-20 ${scrolled ? 'py-3' : 'py-6'}`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 md:px-20 py-2`}
     >
-      <div className={`container mx-auto rounded-2xl transition-all duration-300 border border-white/20 shadow-2xl ${scrolled ? 'bg-white/30 backdrop-blur-md py-2 shadow-brand/5' : 'bg-white/30 backdrop-blur-sm py-4'}`}>
+      <div className={`container mx-auto rounded-2xl transition-all duration-300 border border-white/20 shadow-2xl bg-white/30 backdrop-blur-md py-1 shadow-brand/5' `}>
         <nav className="flex items-center justify-between px-6">
 
           <Link href="/" className="group flex items-center gap-3">
