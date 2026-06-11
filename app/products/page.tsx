@@ -1,4 +1,5 @@
 export const dynamic = 'force-dynamic'
+export const revalidate = 3600;
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
@@ -20,48 +21,55 @@ export default async function Products() {
 
   return (
     <main dir="rtl" className="text-white mt-20">
-      <section className="container mx-auto pt-24 pb-24 px-4">
-        <div className="text-center mb-12">
-          <p className="text-white/40 text-xs tracking-widest uppercase mb-3">
+      <section className="container mx-auto pt-24 pb-24 px-4 md:px-8 lg:px-12">
+
+        {/* Header */}
+        <div className="flex flex-col items-center text-center mb-14">
+          <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase text-sky-400 bg-sky-500/10 border border-sky-500/20 px-4 py-1.5 rounded-full mb-4">
             محصولات ما
-          </p>
-          <h1 className="text-2xl font-semibold mb-3">شیرآلات صنعتی بارش</h1>
+          </span>
+          <h1 className="text-2xl md:text-3xl font-semibold mb-3">
+            شیرآلات بهداشتی بارش
+          </h1>
           <p className="text-sm text-white/50 max-w-sm mx-auto leading-7">
             مجموعه کاملی از شیرآلات صنعتی و خانگی با استانداردهای بین‌المللی
           </p>
-          <div className="mt-5 w-10 h-px bg-white/30 mx-auto" />
+          <div className="mt-5 w-10 h-px bg-sky-500/40" />
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-          {products && products.map((product: IProduct) => (
+
+        {/* Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 mb-12">
+          {products?.map((product: IProduct) => (
             <Link
               key={product.id}
               href={`/products/${product.slug}`}
-              className="relative overflow-hidden flex flex-col border border-white/20 rounded-2xl bg-white/10 backdrop-blur-sm transition-all duration-300 hover:bg-white/15 hover:border-white/40 hover:-translate-y-1 group"
+              className="relative overflow-hidden flex flex-col border border-sky-500/15 rounded-2xl bg-sky-500/5 backdrop-blur-sm transition-all duration-300 hover:bg-sky-500/10 hover:border-sky-400/30 hover:-translate-y-1 group"
             >
-              {/* تصویر */}
-              <div className="relative w-full aspect-square overflow-hidden rounded-t-2xl bg-white/5">
+              {/* image */}
+              <div className="relative w-full aspect-square overflow-hidden rounded-t-2xl bg-sky-500/5">
                 <Image
                   src={product.image}
                   alt={product.title}
                   fill
-                  className="object-contain p-6 transition-transform duration-500"
+                  className="object-contain p-6 transition-transform duration-500 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />
-                <span className="absolute bottom-3 right-3 text-white/80 text-xs bg-black/40 backdrop-blur-sm px-3 py-1 rounded-full border border-white/15">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1a]/40 to-transparent" />
+                <span className="absolute bottom-3 right-3 text-sky-300 text-xs bg-sky-500/15 backdrop-blur-sm px-3 py-1 rounded-full border border-sky-500/20">
                   {product.category}
                 </span>
               </div>
 
-              {/* اطلاعات */}
-              <div className="flex flex-col items-center gap-2 px-5 py-5 text-center">
-                <div className="w-8 h-px bg-white/25 transition-all duration-300 group-hover:w-14 group-hover:bg-white/60" />
-                <h2 className="text-white/90 text-sm font-semibold leading-snug">
+              {/* info */}
+              <div className="flex flex-col items-center gap-2.5 px-5 py-5 text-center">
+                <div className="w-8 h-px bg-sky-500/30 transition-all duration-300 group-hover:w-14 group-hover:bg-sky-400" />
+                <h2 className="text-white/85 text-sm font-semibold leading-snug">
                   {product.title}
                 </h2>
               </div>
             </Link>
           ))}
         </div>
+
       </section>
     </main>
   )

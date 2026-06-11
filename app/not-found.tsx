@@ -1,90 +1,77 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import { AlertTriangle, ArrowRight, Home, LayoutGrid, Search } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "۴۰۴ — صفحه پیدا نشد | بارش صنعتی",
+  title: "۴۰۴ — مسیر یافت نشد | بارش صنعتی",
 }
 
 export default function NotFound() {
   return (
     <main
       dir="rtl"
-      className="min-h-screen flex items-center justify-center text-white"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 text-white"
     >
-      <div className="container mx-auto flex flex-col items-center text-center gap-6">
+      {/* Background Ambience */}
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.08),transparent_50%)]" />
 
-        {/* عدد ۴۰۴ */}
-        <div className="relative select-none">
-          <span className="text-[12rem] font-black leading-none text-white/5">
-            ۴۰۴
-          </span>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="flex flex-col items-center gap-2">
-              <div className="w-16 h-px bg-white/30" />
-              <span className="text-white/50 text-sm tracking-widest uppercase">
-                Page Not Found
-              </span>
-              <div className="w-16 h-px bg-white/30" />
-            </div>
+      <div className="container mx-auto px-6 text-center">
+
+        {/* Diagnostic Code Section */}
+        <div className="relative mx-auto mb-10 flex max-w-md flex-col items-center">
+          <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-3xl border border-sky-500/20 bg-sky-500/5 text-sky-400">
+            <AlertTriangle size={36} strokeWidth={1.5} />
+          </div>
+
+          <div className="space-y-2">
+            <span className="text-xs font-medium uppercase tracking-[0.3em] text-sky-400/80">
+              Diagnostic Code: 404
+            </span>
+            <h1 className="text-5xl font-black tracking-tight text-white md:text-6xl">
+              مسیر پیدا نشد
+            </h1>
           </div>
         </div>
 
-        {/* متن */}
-        <div className="flex flex-col items-center gap-3 -mt-6">
-          <h1 className="text-2xl font-semibold text-white/90">
-            صفحه مورد نظر پیدا نشد
-          </h1>
-          <p className="text-white/45 text-sm leading-7 max-w-sm">
-            شاید آدرس اشتباه وارد شده یا این صفحه دیگر وجود ندارد.
-            از لینک‌های زیر برای بازگشت استفاده کنید.
-          </p>
-        </div>
+        {/* Message */}
+        <p className="mx-auto max-w-sm text-sm leading-7 text-white/50">
+          داده‌ای در این آدرس وجود ندارد یا مسیر به دلیل تغییرات ساختاری سیستم تغییر کرده است.
+        </p>
 
-        {/* دکمه‌ها */}
-        <div className="flex gap-4 mt-2">
+        {/* Actions */}
+        <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
           <Link
             href="/"
-            className="
-              bg-white text-black text-sm font-semibold
-              px-6 py-3 rounded-xl
-              transition-all duration-200 hover:bg-white/80
-            "
+            className="flex items-center gap-2 rounded-2xl bg-white px-8 py-3.5 text-sm font-bold text-slate-950 transition-all hover:bg-sky-50"
           >
+            <Home size={16} />
             بازگشت به خانه
           </Link>
           <Link
-            href="/contact"
-            className="
-              border border-white/30 text-white text-sm
-              px-6 py-3 rounded-xl
-              transition-all duration-200 hover:bg-white/10 hover:border-white/60
-            "
+            href="/contact-us"
+            className="flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-8 py-3.5 text-sm font-medium text-white transition-all hover:border-white/20 hover:bg-white/10"
           >
-            تماس با ما
+            گزارش مشکل
           </Link>
         </div>
 
-        {/* لینک‌های مفید */}
-        <div className="
-          mt-4 flex gap-6
-          border-t border-white/10 pt-6
-          text-white/35 text-xs
-        ">
+        {/* Navigation Links */}
+        <div className="mt-16 grid grid-cols-2 gap-4 border-t border-white/5 pt-8 sm:grid-cols-3 md:max-w-xl md:mx-auto">
           {[
-            { label: "محصولات", href: "/products" },
-            { label: "مقالات", href: "/articles" },
-            { label: "درباره ما", href: "/about" },
-          ].map(({ label, href }) => (
+            { label: "محصولات", href: "/products", icon: LayoutGrid },
+            { label: "جستجو", href: "/search", icon: Search },
+            { label: "درباره ما", href: "/about", icon: ArrowRight },
+          ].map((link) => (
             <Link
-              key={href}
-              href={href}
-              className="hover:text-white/70 transition-colors duration-200"
+              key={link.href}
+              href={link.href}
+              className="flex items-center justify-center gap-2 rounded-xl border border-white/5 bg-white/5 py-3 text-xs text-white/40 transition-all hover:border-white/20 hover:text-white"
             >
-              {label}
+              <link.icon size={14} />
+              {link.label}
             </Link>
           ))}
         </div>
-
       </div>
     </main>
   )

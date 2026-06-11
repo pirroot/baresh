@@ -12,10 +12,10 @@ export default function HomeArticleItem({ article }: Props) {
     <article className="
       relative overflow-hidden
       flex flex-col
-      border border-white/20 rounded-2xl
-      bg-white/10 backdrop-blur-sm
+      border border-sky-500/15 rounded-2xl
+      bg-sky-500/5 backdrop-blur-sm
       transition-all duration-300
-      hover:bg-white/15 hover:border-white/40 hover:-translate-y-1
+      hover:bg-sky-500/10 hover:border-sky-500/30 hover:-translate-y-1
       group
     ">
       <Link href={`/blog/${slug}`} tabIndex={-1} aria-hidden="true">
@@ -26,14 +26,14 @@ export default function HomeArticleItem({ article }: Props) {
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent" />
         </div>
       </Link>
 
       <div className="flex flex-col gap-3 p-5 flex-1">
         <time
           dateTime={date}
-          className="text-white/35 text-xs"
+          className="text-sky-400/60 text-xs font-semibold tracking-widest uppercase"
         >
           {new Date(date).toLocaleDateString("fa-IR", {
             year: "numeric",
@@ -45,24 +45,26 @@ export default function HomeArticleItem({ article }: Props) {
         <h3 className="text-white/90 text-base font-semibold leading-snug line-clamp-2">
           <Link
             href={`/blog/${slug}`}
-            className="hover:text-white transition-colors duration-200"
+            className="hover:text-sky-300 transition-colors duration-200"
           >
             {title}
           </Link>
         </h3>
 
+        <div className="mt-1 w-8 h-px bg-sky-500/30" />
+
         <Link
           href={`/blog/${slug}`}
           className="
             inline-flex items-center gap-2
-            text-white/60 text-xs font-medium
+            text-sky-400/70 text-xs font-semibold tracking-widest uppercase
             transition-all duration-200
-            hover:text-white group/link
-            mt-1
+            hover:text-sky-300 group/link
+            mt-auto
           "
         >
           ادامه مطلب
-          <span className="transition-transform duration-200 group-hover/link:translate-x-[-4]">
+          <span className="transition-transform duration-200 group-hover/link:-translate-x-1">
             ←
           </span>
         </Link>

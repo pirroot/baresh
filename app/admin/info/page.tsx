@@ -4,8 +4,17 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import {
-  Save, Phone, MapPin, Send, ShoppingCart,
-  Award, Package, Users, Globe, FileText, Image as ImageIcon
+  Save,
+  Phone,
+  MapPin,
+  Send,
+  ShoppingCart,
+  Award,
+  Package,
+  Users,
+  Globe,
+  FileText,
+  Image as ImageIcon,
 } from 'lucide-react'
 import { BsInstagram } from 'react-icons/bs'
 import { ISiteInfo } from '@/types/SiteInfoDto'
@@ -16,9 +25,12 @@ import {
 } from '@/services/admin/siteInfoServices'
 
 const inputClass =
-  'w-full bg-gray-950 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-blue-500 transition-all text-white placeholder-gray-600'
+  'w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 outline-none transition-all focus:border-sky-400 focus:ring-4 focus:ring-sky-100'
 
-const labelClass = 'text-sm text-gray-400 mb-1 block'
+const labelClass = 'mb-2 block text-xs font-medium text-slate-500'
+
+const sectionClass =
+  'rounded-3xl border border-slate-200 bg-white p-6 shadow-sm'
 
 export default function AdminInfoPage() {
   const [loading, setLoading] = useState(false)
@@ -37,10 +49,18 @@ export default function AdminInfoPage() {
     })
   }, [reset])
 
+  useEffect(() => {
+    if (!imageFile) return
+
+    const objectUrl = URL.createObjectURL(imageFile)
+    setImagePreview(objectUrl)
+
+    return () => URL.revokeObjectURL(objectUrl)
+  }, [imageFile])
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null
     setImageFile(file)
-    if (file) setImagePreview(URL.createObjectURL(file))
   }
 
   const onSubmit = async (data: ISiteInfo) => {
@@ -59,20 +79,21 @@ export default function AdminInfoPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white" dir="rtl">
-      <main className="p-8 max-w-5xl mx-auto">
-
-        {/* Header */}
-        <header className="mb-8 flex justify-between items-center">
+    <div className="min-h-screen bg-slate-50" dir="rtl">
+      <main className="mx-auto max-w-5xl p-8">
+        <header className="mb-10 flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-100">تنظیمات اطلاعات پایه</h1>
-            <p className="text-gray-400 text-sm mt-1">مدیریت محتوای اصلی سایت و شبکه‌های اجتماعی</p>
+            <h1 className="text-xl font-bold text-slate-900">تنظیمات اطلاعات پایه</h1>
+            <p className="mt-1 text-sm text-slate-500">
+              مدیریت محتوای اصلی سایت و شبکه‌های اجتماعی
+            </p>
           </div>
+
           <button
             type="submit"
             form="info-form"
             disabled={loading}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 transition-colors px-6 py-2.5 rounded-xl font-medium text-sm"
+            className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-l from-sky-500 to-indigo-500 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md disabled:opacity-60"
           >
             <Save size={16} />
             {loading ? 'در حال ذخیره...' : 'ذخیره تغییرات'}
@@ -80,13 +101,13 @@ export default function AdminInfoPage() {
         </header>
 
         <form id="info-form" onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-
-          {/* ارتباطات پایه */}
-          <section className="bg-gray-900 border border-white/10 rounded-2xl p-6">
-            <h2 className="text-base font-semibold mb-5 flex items-center gap-2 text-blue-400">
-              <Phone size={18} /> ارتباطات پایه
+          <section className={sectionClass}>
+            <h2 className="mb-5 flex items-center gap-2 text-sm font-semibold text-slate-800">
+              <Phone size={18} className="text-sky-500" />
+              ارتباطات پایه
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
               <div>
                 <label className={labelClass}>شماره تماس</label>
                 <input
@@ -97,10 +118,11 @@ export default function AdminInfoPage() {
                   dir="ltr"
                 />
               </div>
+
               <div>
                 <label className={labelClass}>آدرس کارخانه</label>
                 <div className="relative">
-                  <MapPin className="absolute right-3 top-3.5 text-gray-500" size={16} />
+                  <MapPin className="absolute right-3 top-3.5 text-slate-400" size={16} />
                   <input
                     type="text"
                     placeholder="استان، شهر، شهرک صنعتی..."
@@ -112,16 +134,17 @@ export default function AdminInfoPage() {
             </div>
           </section>
 
-          {/* شبکه‌های اجتماعی */}
-          <section className="bg-gray-900 border border-white/10 rounded-2xl p-6">
-            <h2 className="text-base font-semibold mb-5 flex items-center gap-2 text-pink-400">
-              <Globe size={18} /> شبکه‌های اجتماعی و لینک‌ها
+          <section className={sectionClass}>
+            <h2 className="mb-5 flex items-center gap-2 text-sm font-semibold text-slate-800">
+              <Globe size={18} className="text-indigo-500" />
+              شبکه‌های اجتماعی و لینک‌ها
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
               <div>
                 <label className={labelClass}>اینستاگرام</label>
                 <div className="relative">
-                  <BsInstagram className="absolute right-3 top-3.5 text-gray-500" size={15} />
+                  <BsInstagram className="absolute right-3 top-3.5 text-slate-400" size={15} />
                   <input
                     type="text"
                     placeholder="username"
@@ -131,10 +154,11 @@ export default function AdminInfoPage() {
                   />
                 </div>
               </div>
+
               <div>
                 <label className={labelClass}>تلگرام</label>
                 <div className="relative">
-                  <Send className="absolute right-3 top-3.5 text-gray-500" size={15} />
+                  <Send className="absolute right-3 top-3.5 text-slate-400" size={15} />
                   <input
                     type="text"
                     placeholder="@username"
@@ -144,6 +168,7 @@ export default function AdminInfoPage() {
                   />
                 </div>
               </div>
+
               <div>
                 <label className={labelClass}>بله</label>
                 <input
@@ -154,10 +179,11 @@ export default function AdminInfoPage() {
                   dir="ltr"
                 />
               </div>
+
               <div>
                 <label className={labelClass}>لینک فروشگاه</label>
                 <div className="relative">
-                  <ShoppingCart className="absolute right-3 top-3.5 text-gray-500" size={15} />
+                  <ShoppingCart className="absolute right-3 top-3.5 text-slate-400" size={15} />
                   <input
                     type="url"
                     placeholder="https://..."
@@ -170,17 +196,38 @@ export default function AdminInfoPage() {
             </div>
           </section>
 
-          {/* شاخص‌های عملکرد */}
-          <section className="bg-gray-900 border border-white/10 rounded-2xl p-6">
-            <h2 className="text-base font-semibold mb-5 flex items-center gap-2 text-yellow-400">
-              <Award size={18} /> شاخص‌های عملکرد
+          <section className={sectionClass}>
+            <h2 className="mb-5 flex items-center gap-2 text-sm font-semibold text-slate-800">
+              <Award size={18} className="text-amber-500" />
+              شاخص‌های عملکرد
             </h2>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
+
+            <div className="grid grid-cols-2 gap-5 lg:grid-cols-4">
               {[
-                { label: 'سال سابقه', field: 'yearsOfExperience', icon: <Award size={14} />, color: 'text-yellow-400' },
-                { label: 'محصول تحویلی', field: 'deliveredProducts', icon: <Package size={14} />, color: 'text-blue-400' },
-                { label: 'مشتری اعتماد کرده', field: 'trustedCustomers', icon: <Users size={14} />, color: 'text-green-400' },
-                { label: 'کشور تحت پوشش', field: 'coveredCountries', icon: <Globe size={14} />, color: 'text-purple-400' },
+                {
+                  label: 'سال سابقه',
+                  field: 'yearsOfExperience',
+                  icon: <Award size={14} />,
+                  color: 'text-amber-500',
+                },
+                {
+                  label: 'محصول تحویلی',
+                  field: 'deliveredProducts',
+                  icon: <Package size={14} />,
+                  color: 'text-sky-500',
+                },
+                {
+                  label: 'مشتری اعتماد کرده',
+                  field: 'trustedCustomers',
+                  icon: <Users size={14} />,
+                  color: 'text-emerald-500',
+                },
+                {
+                  label: 'کشور تحت پوشش',
+                  field: 'coveredCountries',
+                  icon: <Globe size={14} />,
+                  color: 'text-violet-500',
+                },
               ].map((stat) => (
                 <div key={stat.field}>
                   <label className={`${labelClass} flex items-center gap-1.5`}>
@@ -198,31 +245,30 @@ export default function AdminInfoPage() {
             </div>
           </section>
 
-          {/* درباره ما */}
-          <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* آپلود تصویر */}
-            <div className="bg-gray-900 border border-white/10 rounded-2xl p-6 flex flex-col">
+          <section className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+            <div className={`${sectionClass} flex flex-col`}>
               <label className={labelClass}>تصویر درباره ما</label>
-              <label className="flex-1 mt-2 bg-gray-950 border-2 border-dashed border-white/10 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:border-blue-500/50 transition-colors group min-h-[180] overflow-hidden">
+              <label className="mt-2 flex min-h-[180px] flex-1 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 transition-colors hover:border-sky-400 group">
                 {imagePreview ? (
-                  <img src={imagePreview} alt="preview" className="w-full h-full object-cover rounded-2xl" />
+                  <img
+                    src={imagePreview}
+                    alt="preview"
+                    className="h-full w-full rounded-2xl object-cover"
+                  />
                 ) : (
                   <>
-                    <ImageIcon className="text-gray-600 group-hover:text-blue-500 mb-2 transition-colors" size={36} />
-                    <span className="text-xs text-gray-500">کلیک برای آپلود</span>
+                    <ImageIcon
+                      className="mb-2 text-slate-400 transition-colors group-hover:text-sky-500"
+                      size={36}
+                    />
+                    <span className="text-xs text-slate-500">کلیک برای آپلود</span>
                   </>
                 )}
-                <input
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={handleImageChange}
-                />
+                <input type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
               </label>
             </div>
 
-            {/* متون */}
-            <div className="lg:col-span-2 bg-gray-900 border border-white/10 rounded-2xl p-6 space-y-4">
+            <div className={`${sectionClass} space-y-4 lg:col-span-2`}>
               <div>
                 <label className={labelClass}>عنوان درباره ما</label>
                 <input
@@ -232,6 +278,7 @@ export default function AdminInfoPage() {
                   placeholder="مثال: درباره شرکت ما"
                 />
               </div>
+
               <div>
                 <label className={labelClass}>متن درباره ما</label>
                 <textarea
@@ -241,9 +288,11 @@ export default function AdminInfoPage() {
                   placeholder="توضیحات درباره شرکت..."
                 />
               </div>
+
               <div>
                 <label className={`${labelClass} flex items-center gap-1.5`}>
-                  <FileText size={14} className="text-blue-400" /> متن صفحه اصلی (Hero)
+                  <FileText size={14} className="text-sky-500" />
+                  متن صفحه اصلی (Hero)
                 </label>
                 <textarea
                   rows={3}
@@ -254,7 +303,6 @@ export default function AdminInfoPage() {
               </div>
             </div>
           </section>
-
         </form>
       </main>
     </div>

@@ -13,7 +13,7 @@ function FaqItem({ question, answer }: IFaqItemDto) {
 
   return (
     <div
-      className="border-b border-white/15 last:border-0"
+      className="border-b border-sky-500/15 last:border-0"
       itemScope
       itemProp="mainEntity"
       itemType="https://schema.org/Question"
@@ -26,12 +26,12 @@ function FaqItem({ question, answer }: IFaqItemDto) {
       <button
         onClick={() => setOpen((prev) => !prev)}
         aria-expanded={open}
-        className="w-full flex items-center justify-between gap-4 py-5 text-right transition-colors duration-200 hover:text-white text-white/80 group"
+        className="w-full flex items-center justify-between gap-4 py-5 text-right transition-colors duration-200 hover:text-sky-300 text-white/80 group"
       >
         <span className="text-sm font-medium leading-snug">{question}</span>
         <HiChevronDown
           size={18}
-          className={`shrink-0 text-white/40 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+          className={`shrink-0 text-sky-400/50 transition-transform duration-300 group-hover:text-sky-400 ${open ? "rotate-180" : ""}`}
         />
       </button>
 

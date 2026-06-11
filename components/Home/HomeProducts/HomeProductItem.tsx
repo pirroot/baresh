@@ -19,10 +19,10 @@ export default function HomeProductItem({
       className="
         relative overflow-hidden
         flex flex-col items-center justify-between text-center
-        border border-white/30 rounded-2xl
-        bg-white/10 backdrop-blur-sm
+        border border-sky-500/15 rounded-2xl
+        bg-sky-500/5 backdrop-blur-sm
         transition-all duration-300 ease-out
-        hover:bg-white/20 hover:border-white/60 hover:scale-105 hover:-translate-y-1
+        hover:bg-sky-500/10 hover:border-sky-500/30 hover:scale-105 hover:-translate-y-1
         group flex-1
       "
     >
@@ -38,10 +38,10 @@ export default function HomeProductItem({
       </div>
 
       <div className="flex flex-col items-center gap-2 px-5 py-5 w-full">
-
-        <div className="w-8 h-px bg-white/30 transition-all duration-300 group-hover:w-14 group-hover:bg-white/70" />
-
-        <h3 className="text-white text-sm font-semibold leading-snug">{title}</h3>
+        <div className="w-8 h-px bg-sky-500/30 transition-all duration-300 group-hover:w-14 group-hover:bg-sky-400/70" />
+        <h3 className="text-white/90 text-sm font-semibold leading-snug group-hover:text-sky-300 transition-colors duration-200">
+          {title}
+        </h3>
       </div>
     </Link>
   )

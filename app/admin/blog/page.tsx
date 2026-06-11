@@ -16,8 +16,9 @@ import RichEditor from '@/components/RichEditor'
 import sanitizeHtml from 'sanitize-html'
 
 const inputClass =
-  'w-full bg-gray-800 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-white/30 placeholder-white/20'
-const labelClass = 'text-xs text-white/50 mb-1.5 block'
+  'w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 outline-none transition-all focus:border-sky-400 focus:ring-4 focus:ring-sky-100'
+
+const labelClass = 'mb-2 block text-xs font-medium text-slate-500'
 
 type BlogFormValues = Omit<IPost, 'keywords'> & {
   keywords: string
@@ -50,6 +51,7 @@ export default function AdminBlogPage() {
   const [saving, setSaving] = useState(false)
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
+
   const router = useRouter()
 
   const {
@@ -187,10 +189,11 @@ export default function AdminBlogPage() {
   const handleDelete = async (id: string) => {
     await deleteBlogAdminApi(id)
     setDeleteId(null)
-    fetchPosts()
+    await fetchPosts()
   }
 
   const watchTitle = watch('title')
+
   useEffect(() => {
     if (!editingId && watchTitle) {
       setValue('slug', titleToSlug(watchTitle))
@@ -198,114 +201,191 @@ export default function AdminBlogPage() {
   }, [watchTitle, editingId, setValue])
 
   return (
-    <div dir="rtl">
-      <div className="flex items-center justify-between mb-8">
+    <div dir="rtl" className="space-y-8">
+      {/* Header */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">مدیریت بلاگ</h1>
-          <p className="text-white/40 text-sm mt-1">{posts.length} پست در مجموع</p>
+          <p className="mb-2 text-sm font-medium text-sky-600">مدیریت محتوا</p>
+          <h1 className="text-2xl font-bold text-slate-900">مدیریت بلاگ</h1>
+          <p className="mt-1 text-sm text-slate-500">
+            {posts.length.toLocaleString('fa-IR')} پست در مجموع
+          </p>
         </div>
+
         <button
           onClick={openCreate}
-          className="flex items-center gap-2 bg-white text-gray-900 px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-white/90 transition-colors"
+          className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-l from-sky-500 to-indigo-500 px-5 py-3 text-sm font-medium text-white shadow-md transition-all hover:-translate-y-0.5 hover:shadow-lg"
         >
-          <MdAdd size={18} /> پست جدید
+          <MdAdd size={18} />
+          پست جدید
         </button>
       </div>
 
-      <div className="bg-gray-900 border border-white/10 rounded-xl overflow-hidden">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b border-white/10">
-              <th className="text-right text-xs text-white/40 font-medium px-6 py-4">پست</th>
-              <th className="text-right text-xs text-white/40 font-medium px-6 py-4">دسته‌بندی</th>
-              <th className="text-right text-xs text-white/40 font-medium px-6 py-4">زمان مطالعه</th>
-              <th className="text-right text-xs text-white/40 font-medium px-6 py-4">تاریخ</th>
-              <th className="text-right text-xs text-white/40 font-medium px-6 py-4">عملیات</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              <tr>
-                <td colSpan={5} className="text-center py-12 text-white/30 text-sm">
-                  در حال بارگذاری...
-                </td>
+      {/* Table / List */}
+      <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+        <div className="border-b border-slate-100 px-6 py-5">
+          <h2 className="text-base font-bold text-slate-900">لیست پست‌ها</h2>
+          <p className="mt-1 text-xs text-slate-400">
+            مشاهده، ویرایش و حذف پست‌های بلاگ
+          </p>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[760px]">
+            <thead className="bg-slate-50">
+              <tr className="border-b border-slate-200">
+                <th className="px-6 py-4 text-right text-xs font-semibold text-slate-500">
+                  پست
+                </th>
+                <th className="px-6 py-4 text-right text-xs font-semibold text-slate-500">
+                  دسته‌بندی
+                </th>
+                <th className="px-6 py-4 text-right text-xs font-semibold text-slate-500">
+                  زمان مطالعه
+                </th>
+                <th className="px-6 py-4 text-right text-xs font-semibold text-slate-500">
+                  تاریخ
+                </th>
+                <th className="px-6 py-4 text-right text-xs font-semibold text-slate-500">
+                  عملیات
+                </th>
               </tr>
-            ) : posts.length === 0 ? (
-              <tr>
-                <td colSpan={5} className="text-center py-12 text-white/30 text-sm">
-                  پستی یافت نشد
-                </td>
-              </tr>
-            ) : (
-              posts.map((post) => (
-                <tr key={post.id} className="border-b border-white/5 hover:bg-white/2 transition-colors">
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-3">
-                      {post.image && (
-                        <img src={post.image} alt={post.title} className="w-12 h-12 rounded-lg object-cover bg-white/5" />
-                      )}
-                      <div>
-                        <p className="text-sm text-white font-medium">{post.title}</p>
-                        <code className="text-xs text-white/30">{post.slug}</code>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className="text-xs bg-white/5 text-white/60 px-2.5 py-1 rounded-full">{post.category}</span>
-                  </td>
-                  <td className="px-6 py-4 text-xs text-white/40">{post.readTime}</td>
-                  <td className="px-6 py-4 text-xs text-white/30">
-                    {post.date ? new Date(post.date).toLocaleDateString('fa-IR') : '-'}
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => openEdit(post)}
-                        className="p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/10 transition-all"
-                      >
-                        <MdEdit size={16} />
-                      </button>
-                      <button
-                        onClick={() => setDeleteId(post.id!)}
-                        className="p-1.5 rounded-lg text-white/40 hover:text-red-400 hover:bg-red-400/10 transition-all"
-                      >
-                        <MdDelete size={16} />
-                      </button>
-                    </div>
+            </thead>
+
+            <tbody className="divide-y divide-slate-100">
+              {loading ? (
+                <tr>
+                  <td colSpan={5} className="py-14 text-center text-sm text-slate-400">
+                    در حال بارگذاری...
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : posts.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="py-14 text-center text-sm text-slate-400">
+                    پستی یافت نشد
+                  </td>
+                </tr>
+              ) : (
+                posts.map((post) => (
+                  <tr
+                    key={post.id}
+                    className="transition-colors hover:bg-slate-50/80"
+                  >
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        {post.image ? (
+                          <img
+                            src={post.image}
+                            alt={post.title}
+                            className="h-12 w-12 rounded-xl border border-slate-200 object-cover bg-slate-100"
+                          />
+                        ) : (
+                          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 text-xs text-slate-400">
+                            بدون تصویر
+                          </div>
+                        )}
+
+                        <div className="min-w-0">
+                          <p className="truncate text-sm font-semibold text-slate-800">
+                            {post.title}
+                          </p>
+                          <code className="mt-1 block truncate text-xs text-slate-400" dir="ltr">
+                            {post.slug}
+                          </code>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td className="px-6 py-4">
+                      <span className="inline-flex rounded-full bg-sky-50 px-3 py-1 text-xs font-medium text-sky-700 ring-1 ring-sky-100">
+                        {post.category}
+                      </span>
+                    </td>
+
+                    <td className="px-6 py-4 text-xs text-slate-500">
+                      {post.readTime} دقیقه
+                    </td>
+
+                    <td className="px-6 py-4 text-xs text-slate-400">
+                      {post.date
+                        ? new Date(post.date).toLocaleDateString('fa-IR')
+                        : '-'}
+                    </td>
+
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => openEdit(post)}
+                          className="rounded-xl p-2 text-slate-500 transition-all hover:bg-sky-50 hover:text-sky-600"
+                          title="ویرایش"
+                        >
+                          <MdEdit size={18} />
+                        </button>
+
+                        <button
+                          onClick={() => setDeleteId(post.id!)}
+                          className="rounded-xl p-2 text-slate-500 transition-all hover:bg-red-50 hover:text-red-500"
+                          title="حذف"
+                        >
+                          <MdDelete size={18} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
+      {/* Create / Edit Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-900 border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between p-6 border-b border-white/10">
-              <h2 className="text-base font-semibold">{editingId ? 'ویرایش پست' : 'پست جدید'}</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/30 backdrop-blur-sm p-4">
+          <div className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl border border-slate-200 bg-white shadow-2xl">
+            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-100 bg-white/95 px-6 py-5 backdrop-blur">
+              <div>
+                <h2 className="text-base font-bold text-slate-900">
+                  {editingId ? 'ویرایش پست' : 'پست جدید'}
+                </h2>
+                <p className="mt-1 text-xs text-slate-400">
+                  اطلاعات مقاله را کامل و دقیق وارد کنید
+                </p>
+              </div>
+
               <button
                 onClick={() => setModalOpen(false)}
-                className="p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/10 transition-all"
+                className="rounded-xl p-2 text-slate-400 transition-all hover:bg-slate-100 hover:text-slate-700"
               >
                 <MdClose size={20} />
               </button>
             </div>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 p-6">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
                   <label className={labelClass}>عنوان *</label>
-                  <input type="text" {...register('title', { required: true })} className={inputClass} placeholder="عنوان پست" />
+                  <input
+                    type="text"
+                    {...register('title', { required: true })}
+                    className={inputClass}
+                    placeholder="عنوان پست"
+                  />
                 </div>
+
                 <div>
                   <label className={labelClass}>Slug *</label>
-                  <input type="text" {...register('slug', { required: true })} className={inputClass} placeholder="post-slug" dir="ltr" />
+                  <input
+                    type="text"
+                    {...register('slug', { required: true })}
+                    className={inputClass}
+                    placeholder="post-slug"
+                    dir="ltr"
+                  />
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
                   <label className={labelClass}>تصویر کاور</label>
                   <input
@@ -316,70 +396,141 @@ export default function AdminBlogPage() {
                       setImageFile(f)
                       if (f) setImagePreview(URL.createObjectURL(f))
                     }}
-                    className={inputClass}
+                    className={`${inputClass} file:ml-3 file:rounded-xl file:border-0 file:bg-slate-100 file:px-3 file:py-2 file:text-xs file:font-medium file:text-slate-600 hover:file:bg-slate-200`}
                   />
                 </div>
 
                 <div>
                   <label className={labelClass}>دسته‌بندی *</label>
-                  <input type="text" {...register('category', { required: true })} className={inputClass} placeholder="مثال: آموزش" />
+                  <input
+                    type="text"
+                    {...register('category', { required: true })}
+                    className={inputClass}
+                    placeholder="مثال: آموزش"
+                  />
                 </div>
               </div>
 
               {imagePreview && (
-                <img src={imagePreview} alt="preview" className="mt-2 h-24 rounded-lg object-cover" />
+                <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-3">
+                  <img
+                    src={imagePreview}
+                    alt="preview"
+                    className="h-32 w-full rounded-xl object-cover"
+                  />
+                </div>
               )}
 
               <div>
                 <label className={labelClass}>محتوا *</label>
-                <Controller
-                  name="content"
-                  control={control}
-                  rules={{ required: 'محتوا الزامی است' }}
-                  render={({ field, fieldState }) => (
-                    <>
-                      <RichEditor value={field.value || ''} onChange={field.onChange} />
-                      {fieldState.error && (
-                        <p className="mt-1 text-sm text-red-500">{fieldState.error.message}</p>
-                      )}
-                    </>
-                  )}
-                />
+                <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+                  <Controller
+                    name="content"
+                    control={control}
+                    rules={{ required: 'محتوا الزامی است' }}
+                    render={({ field, fieldState }) => (
+                      <div className="p-2">
+                        <RichEditor value={field.value || ''} onChange={field.onChange} />
+                        {fieldState.error && (
+                          <p className="mt-2 text-sm text-red-500">
+                            {fieldState.error.message}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  />
+                </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
                   <label className={labelClass}>عنوان SEO</label>
-                  <input type="text" {...register('seoTitle')} className={inputClass} />
+                  <input
+                    type="text"
+                    {...register('seoTitle')}
+                    className={inputClass}
+                    placeholder="عنوان سئو"
+                  />
                 </div>
+
                 <div>
                   <label className={labelClass}>کلمات کلیدی</label>
-                  <input type="text" {...register('keywords')} className={inputClass} placeholder="react, nextjs, seo" />
+                  <input
+                    type="text"
+                    {...register('keywords')}
+                    className={inputClass}
+                    placeholder="react, nextjs, seo"
+                  />
                 </div>
               </div>
 
               <div>
                 <label className={labelClass}>توضیح SEO</label>
-                <textarea {...register('seoDescription')} rows={2} className={`${inputClass} resize-none`} />
+                <textarea
+                  {...register('seoDescription')}
+                  rows={3}
+                  className={`${inputClass} resize-none`}
+                  placeholder="توضیح کوتاه برای موتورهای جستجو"
+                />
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-2 border-t border-white/10">
+              <div className="flex items-center justify-end gap-3 border-t border-slate-100 pt-4">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 text-sm text-white/50 hover:text-white transition-colors"
+                  className="rounded-2xl px-4 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700"
                 >
                   انصراف
                 </button>
+
                 <button
                   type="submit"
                   disabled={saving}
-                  className="flex items-center gap-2 bg-white text-gray-900 px-5 py-2 rounded-lg text-sm font-medium hover:bg-white/90 disabled:opacity-50 transition-colors"
+                  className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-l from-sky-500 to-indigo-500 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  {saving ? 'در حال ذخیره...' : <><MdCheck size={16} /> ذخیره</>}
+                  {saving ? (
+                    'در حال ذخیره...'
+                  ) : (
+                    <>
+                      <MdCheck size={16} />
+                      ذخیره
+                    </>
+                  )}
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Modal */}
+      {deleteId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/30 backdrop-blur-sm p-4">
+          <div className="w-full max-w-md rounded-3xl border border-slate-200 bg-white p-6 shadow-2xl">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-red-50 text-red-500">
+              <MdDelete size={22} />
+            </div>
+
+            <h3 className="text-lg font-bold text-slate-900">حذف پست</h3>
+            <p className="mt-2 text-sm leading-6 text-slate-500">
+              آیا از حذف این پست مطمئن هستی؟ این عملیات قابل بازگشت نیست.
+            </p>
+
+            <div className="mt-6 flex items-center justify-end gap-3">
+              <button
+                onClick={() => setDeleteId(null)}
+                className="rounded-2xl px-4 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700"
+              >
+                انصراف
+              </button>
+
+              <button
+                onClick={() => handleDelete(deleteId)}
+                className="rounded-2xl bg-red-500 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-red-600"
+              >
+                حذف پست
+              </button>
+            </div>
           </div>
         </div>
       )}

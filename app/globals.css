@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @plugin "@tailwindcss/typography";
+
 @theme {
   --color-red: #c62828;
   --color-red-low: #fdeaea;
@@ -7,6 +8,7 @@
 }
 
 /* Base */
+
 * {
   box-sizing: border-box;
 }
@@ -20,6 +22,7 @@ body {
 }
 
 /* Utilities */
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -27,11 +30,22 @@ body {
 }
 
 /* Scrollbar */
+
 ::-webkit-scrollbar {
   width: 4px;
 }
 
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  /* background: rgba(255, 255, 255, 0.2); */
+  border-radius: 20px;
+}
+
 /* Remove number input spinners */
+
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -46,6 +60,7 @@ select {
 }
 
 /* Animations */
+
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -107,6 +122,7 @@ select {
 }
 
 /* Animation utilities */
+
 .animate-fade-up {
   animation: fadeUp 0.6s ease both;
 }
@@ -127,24 +143,28 @@ select {
   animation: pulseDot 2s ease infinite;
 }
 
-/* Scroll snap */
-/* .scroll-A {
-  height: 100vh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-}
+/* Grid background */
 
-.scroll-B {
-  height: 100vh;
-  scroll-snap-align: start;
-} */
-
-.bg-grid {
-  /* position: fixed; */
+/* .bg-grid {
   inset: 0;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.048) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
   background-size: 60px 60px;
-  z-index: 0;
+  pointer-events: none;
+} */
+
+/* Loading animation */
+
+@keyframes loading-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(300%);
+  }
+}
+
+.loading-slide-bar {
+  animation: loading-slide 1.5s ease-in-out infinite;
 }

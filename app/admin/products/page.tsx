@@ -1,62 +1,89 @@
 export const dynamic = 'force-dynamic'
-import AddProductModal from "@/components/Admin/Product/AddProductModal";
-import { getProductAdminApi } from "@/services/admin/adminServices";
-import { IProduct } from "@/types/ProductDto";
-import { DeleteButton } from "@/components/Admin/Product/DeleteButton";
-import { EditButton } from "@/components/Admin/Product/EditButton";
 
+import AddProductModal from "@/components/Admin/Product/AddProductModal"
+import { getProductAdminApi } from "@/services/admin/adminServices"
+import { IProduct } from "@/types/ProductDto"
+import { DeleteButton } from "@/components/Admin/Product/DeleteButton"
+import { EditButton } from "@/components/Admin/Product/EditButton"
 
 export default async function AdminProductsPage() {
   const products = await getProductAdminApi()
 
   return (
-    <div dir="rtl">
-      <div className="flex items-center justify-between mb-8">
+    <div dir="rtl" className="space-y-8">
+      {/* Header */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">مدیریت محصولات</h1>
-          <p className="text-white/40 text-sm mt-3">{products.result.length} محصول در مجموع</p>
+          <p className="text-sm font-medium text-sky-600 mb-2">مدیریت فروشگاه</p>
+          <h1 className="text-2xl font-bold text-slate-900">مدیریت محصولات</h1>
+          <p className="mt-1 text-sm text-slate-500">
+            {products.result.length.toLocaleString("fa-IR")} محصول موجود است
+          </p>
         </div>
+
         <AddProductModal />
       </div>
 
-      <div className="bg-gray-900 border border-white/10 rounded-xl overflow-hidden">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b border-white/10">
-              <th className="text-right text-xs text-white/40 font-medium px-6 py-4">محصول</th>
-              <th className="text-right text-xs text-white/40 font-medium px-6 py-4">دسته‌بندی</th>
-              <th className="text-right text-xs text-white/40 font-medium px-6 py-4">اسلاگ</th>
-              <th className="text-right text-xs text-white/40 font-medium px-6 py-4">آخرین بروزرسانی</th>
-              <th className="text-right text-xs text-white/40 font-medium px-6 py-4">عملیات</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.result &&
-              products.result.map((product: IProduct) => (
-                <tr key={product.id} className="border-b border-white/5 hover:bg-white/2 transition-colors">
+      {/* Table */}
+      <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+        <div className="border-b border-slate-100 px-6 py-5">
+          <h2 className="text-base font-semibold text-slate-900">لیست محصولات</h2>
+          <p className="mt-1 text-xs text-slate-400">مشاهده، ویرایش و حذف محصولات سایت</p>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="min-w-[900px] w-full">
+            <thead className="bg-slate-50">
+              <tr className="border-b border-slate-200">
+                <th className="px-6 py-4 text-right text-xs font-semibold text-slate-500">محصول</th>
+                <th className="px-6 py-4 text-right text-xs font-semibold text-slate-500">دسته‌بندی</th>
+                <th className="px-6 py-4 text-right text-xs font-semibold text-slate-500">اسلاگ</th>
+                <th className="px-6 py-4 text-right text-xs font-semibold text-slate-500">آخرین بروزرسانی</th>
+                <th className="px-6 py-4 text-right text-xs font-semibold text-slate-500">عملیات</th>
+              </tr>
+            </thead>
+
+            <tbody className="divide-y divide-slate-100">
+              {products.result?.map((product: IProduct) => (
+                <tr key={product.id} className="transition-colors hover:bg-slate-50/80">
                   <td className="px-6 py-4">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-4">
                       <img
                         src={product.image}
                         alt={product.title}
-                        className="w-20 h-20 rounded-lg object-cover bg-white/5"
+                        className="h-16 w-16 rounded-xl border border-slate-200 object-cover bg-slate-100 shadow-sm"
                       />
-                      <div>
-                        <p className="text-lg text-white font-l">{product.title}</p>
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-semibold text-slate-800">
+                          {product.title}
+                        </p>
+                        <p className="mt-1 text-xs text-slate-400">
+                          قیمت:{" "}
+                          {product.price
+                            ? product.price.toLocaleString("fa-IR")
+                            : "—"}{" "}
+                          تومان
+                        </p>
                       </div>
                     </div>
                   </td>
+
                   <td className="px-6 py-4">
-                    <span className="text-xs bg-white/5 text-white/60 px-2.5 py-1 rounded-full">
+                    <span className="inline-flex rounded-full bg-sky-50 px-3 py-1 text-xs font-medium text-sky-700 ring-1 ring-sky-100">
                       {product.category}
                     </span>
                   </td>
+
                   <td className="px-6 py-4">
-                    <code className="text-xs text-white/40 bg-white/5 px-2 py-1 rounded">{product.slug}</code>
+                    <code className="rounded-xl bg-slate-100 px-2.5 py-1 text-xs text-slate-500" dir="ltr">
+                      {product.slug}
+                    </code>
                   </td>
-                  <td className="px-6 py-4 text-xs text-white/30">
+
+                  <td className="px-6 py-4 text-xs text-slate-500">
                     {new Date(product.updatedAt).toLocaleDateString("fa-IR")}
                   </td>
+
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
                       <EditButton product={product} />
@@ -64,11 +91,22 @@ export default async function AdminProductsPage() {
                     </div>
                   </td>
                 </tr>
-              ))
-            }
-          </tbody>
-        </table>
+              ))}
+
+              {products.result.length === 0 && (
+                <tr>
+                  <td
+                    colSpan={5}
+                    className="py-16 text-center text-sm text-slate-400"
+                  >
+                    هنوز محصولی ثبت نشده.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div >
-  );
+    </div>
+  )
 }

@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/prisma';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const [productCount, postCount, faqCount, recentPosts] = await Promise.all([
       prisma.product.count(),
@@ -20,7 +20,8 @@ export async function GET(req: NextRequest) {
       faqCount,
       recentPosts,
     });
-  } catch {
+  } catch (error) {
+    console.error('[GET /api/dashboard]', error);
     return NextResponse.json(
       { error: 'خطا در دریافت داده‌ها' },
       { status: 500 }

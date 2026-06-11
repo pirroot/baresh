@@ -63,7 +63,6 @@ export default function HeroSlider({
 
   return (
     <section className="hero-slider" aria-label="اسلایدر تصاویر">
-      {/* Viewport */}
       <div className="hero-slider__viewport" ref={emblaRef}>
         <div className="hero-slider__container">
           {slides.map((slide, index) => (
@@ -73,7 +72,6 @@ export default function HeroSlider({
               aria-roledescription="اسلاید"
               aria-label={`${index + 1} از ${slides.length}`}
             >
-              {/* Background Image */}
               <div className="hero-slider__image-wrapper">
                 <Image
                   src={slide.image}
@@ -86,7 +84,9 @@ export default function HeroSlider({
               </div>
 
               <div className="hero-slider__content">
+                <span className="hero-slider__eyebrow">شیرآلات صنعتی</span>
                 <h2 className="hero-slider__title">{slide.title}</h2>
+                <div className="hero-slider__divider" />
                 <p className="hero-slider__subtitle">{slide.short_description}</p>
               </div>
             </div>
@@ -102,7 +102,7 @@ export default function HeroSlider({
             disabled={!loop && !canScrollPrev}
             aria-label="اسلاید قبلی"
           >
-            <BiRightArrow size={22} />
+            <BiRightArrow size={18} />
           </button>
           <button
             className="hero-slider__arrow hero-slider__arrow--next"
@@ -110,12 +110,11 @@ export default function HeroSlider({
             disabled={!loop && !canScrollNext}
             aria-label="اسلاید بعدی"
           >
-            <BiLeftArrow size={22} />
+            <BiLeftArrow size={18} />
           </button>
         </>
       )}
 
-      {/* Dots */}
       {showDots && (
         <div className="hero-slider__dots" role="tablist" aria-label="انتخاب اسلاید">
           {slides.map((_, index) => (

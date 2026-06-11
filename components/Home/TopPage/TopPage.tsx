@@ -5,38 +5,58 @@ import Link from "next/link";
 
 export default async function TopPage() {
   const { sliders, siteInfo } = await getHomeDataApi();
-  return (
-    <section className="container mx-auto grid lg:grid-cols-2 items-center gap-20 mt-50 mb-20 text-white">
-      <div className="space-y-10 max-sm:text-center">
-        <div className="">
-          <h3 className="text-red-600 font-bold tracking-widest uppercase text-sm">
-            بارش | نوآوری در جریان
-          </h3>
 
-          <h1 className="text-6xl  font-extrabold leading-tight">
-            شرکت شیرآلات خانگی  <br /><span className="text-red-500">بارش؛ </span><br />
-            <span className="text-5xl text-transparent bg-clip-text bg-linear-to-r from-red-500 to-red-300">
+  return (
+    <section className="container mx-auto grid lg:grid-cols-2 items-center gap-16 mt-48 mb-20 text-white px-4 md:px-8 lg:px-12">
+
+      {/* Text side */}
+      <div className="space-y-8 max-sm:text-center">
+
+        <div className="space-y-4">
+          <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase text-sky-400 bg-sky-500/10 border border-sky-500/20 px-4 py-1.5 rounded-full">
+            بارش | نوآوری در جریان
+          </span>
+
+          <h1 className="text-5xl lg:text-6xl font-extrabold leading-tight">
+            شرکت شیرآلات خانگی
+            <br />
+            <span className="text-sky-400">بارش؛</span>
+            <br />
+            <span className="text-4xl lg:text-5xl text-transparent bg-clip-text bg-linear-to-l from-sky-300 to-sky-500">
               <TypeitHome />
             </span>
           </h1>
         </div>
 
-        <p className="text-gray-400 text-lg leading-10 text-justify max-sm:px-5">{siteInfo?.homePageText}</p>
+        <p className="text-white/55 text-base lg:text-lg leading-9 text-justify max-sm:px-4">
+          {siteInfo?.homePageText}
+        </p>
 
-        <div className="flex gap-5 max-sm:justify-around">
-          <Link href={'/products'} title="نمایش محصولات بارش" className="bg-linear-700 from-red-400 bg-red-700 hover:bg-red-800 text-white px-8 py-4 rounded-xl font-medium transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)]">
-            مشاهده محصولات بارش
+        <div className="flex gap-4 max-sm:justify-around">
+          <Link
+            href="/products"
+            title="نمایش محصولات بارش"
+            className="bg-sky-600 hover:bg-sky-500 text-white px-8 py-3.5 rounded-xl font-medium transition-all duration-300 shadow-lg shadow-sky-900/40 hover:shadow-sky-800/50 hover:scale-[1.02]"
+          >
+            مشاهده محصولات
           </Link>
-          <Link href={'/contact-us'} title="نمایش محصولات بارش" className="bg-linear-700 border-2 border-white/80 text-white px-8 py-4 rounded-xl font-medium hover:bg-white hover:text-black transition-all duration-300">
+          <Link
+            href="/contact-us"
+            title="تماس با ما"
+            className="border border-sky-500/30 text-white/80 hover:text-white hover:border-sky-400/60 hover:bg-sky-500/10 px-8 py-3.5 rounded-xl font-medium transition-all duration-300"
+          >
             تماس با ما
           </Link>
         </div>
+
       </div>
 
+      {/* Slider side */}
       <div className="relative flex justify-center">
-        <div className="absolute inset-1 bg-red-600/15 blur-[120px] rounded-full" />
+        <div className="absolute inset-4 bg-sky-500/10 blur-[100px] rounded-full pointer-events-none" />
         <HeroSlider slides={sliders} />
       </div>
-    </section >
-  )
+
+    </section>
+  );
 }

@@ -12,9 +12,10 @@ export function EditButton({ product }: { product: IProduct }) {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/10 transition-all"
+        className="rounded-xl p-2 text-slate-500 transition-all hover:bg-sky-50 hover:text-sky-600"
+        title="ویرایش محصول"
       >
-        <MdEdit size={20} />
+        <MdEdit size={18} />
       </button>
 
       {open && <EditProductModal product={product} onClose={() => setOpen(false)} />}

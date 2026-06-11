@@ -8,42 +8,94 @@ export async function GET(req: NextRequest) {
     });
     return NextResponse.json({ result });
   } catch {
-    return NextResponse.json({ error: 'خطایی به وجود آمد.' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'خطایی در دریافت اطلاعات رخ داد.' },
+      { status: 500 }
+    );
   }
 }
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { id, date, updatedAt, ...data } = body ?? {};
+
+    if (!body || typeof body !== 'object') {
+      return NextResponse.json(
+        { error: 'داده‌های ورودی معتبر نیست.' },
+        { status: 400 }
+      );
+    }
+
+    const { id, date, updatedAt, createdAt, ...data } = body;
 
     if (!id) {
+      if (!data.title || !data.slug) {
+        return NextResponse.json(
+          { error: 'فیلدهای اجباری وارد نشده‌اند.' },
+          { status: 400 }
+        );
+      }
+
+      const slugExists = await prisma.post.findUnique({
+        where: { slug: data.slug },
+      });
+      if (slugExists) {
+        return NextResponse.json(
+          { error: 'این slug قبلاً استفاده شده است.' },
+          { status: 409 }
+        );
+      }
+
       const created = await prisma.post.create({ data });
       return NextResponse.json(created, { status: 201 });
     }
 
     const exist = await prisma.post.findUnique({ where: { id } });
     if (!exist) {
-      return NextResponse.json({ message: 'Post not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'پست مورد نظر یافت نشد.' },
+        { status: 404 }
+      );
     }
 
     const updated = await prisma.post.update({ where: { id }, data });
     return NextResponse.json(updated, { status: 200 });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ message: 'خطا از طرف سرور' }, { status: 500 });
+    console.error('[POST /api/post]', error);
+    return NextResponse.json(
+      { error: 'خطایی در سرور رخ داد.' },
+      { status: 500 }
+    );
   }
 }
 
 export async function DELETE(req: NextRequest) {
   try {
-    const { id } = await req.json();
+    const body = await req.json();
+    const { id } = body ?? {};
+
     if (!id) {
-      return NextResponse.json({ error: 'id وجود ندارد.' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'شناسه پست ارسال نشده است.' },
+        { status: 400 }
+      );
     }
+
+    const exist = await prisma.post.findUnique({ where: { id } });
+    if (!exist) {
+      return NextResponse.json(
+        { error: 'پست مورد نظر یافت نشد.' },
+        { status: 404 }
+      );
+    }
+
     await prisma.post.delete({ where: { id } });
-    return NextResponse.json({ msg: 'پست با موفقیت حذف شد.' });
-  } catch {
-    return NextResponse.json({ error: 'خطایی به وجود آمد.' }, { status: 500 });
+    return NextResponse.json({ message: 'پست با موفقیت حذف شد.' });
+  } catch (error) {
+    console.error('[DELETE /api/post]', error);
+    return NextResponse.json(
+      { error: 'خطایی در حذف پست رخ داد.' },
+      { status: 500 }
+    );
   }
 }

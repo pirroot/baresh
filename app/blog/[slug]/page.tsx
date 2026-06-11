@@ -9,22 +9,16 @@ interface IProps {
   params: Promise<{ slug: string }>
 }
 
-
 export async function generateMetadata({ params }: IProps): Promise<Metadata> {
   const { slug } = await params
   const post = await getBlogBySlug(slug)
-
   if (!post) return { title: "مقاله پیدا نشد" }
-
   const imageUrl = Array.isArray(post.image) ? post.image[0] : post.image
-
   return {
     title: post.seoTitle || `${post.title} | وبلاگ بارش`,
     description: post.seoDescription,
     keywords: post.keywords as string[] | null,
-    alternates: {
-      canonical: `/blog/${slug}`,
-    },
+    alternates: { canonical: `/blog/${slug}` },
     openGraph: {
       title: post.title,
       description: post.seoDescription ?? post.content?.slice(0, 160),
@@ -41,7 +35,6 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
   }
 }
 
-
 function BlogMeta({
   category,
   createdAt,
@@ -54,11 +47,11 @@ function BlogMeta({
   const date = createdAt instanceof Date ? createdAt : new Date(createdAt)
 
   return (
-    <div className="flex flex-wrap items-center gap-3 text-white/40 text-xs mb-6">
-      <span className="bg-white/10 border border-white/10 px-3 py-1 rounded-full text-white/80">
+    <div className="flex flex-wrap items-center gap-3 text-white/35 text-xs mb-6">
+      <span className="inline-flex items-center text-xs font-semibold tracking-wide text-sky-400 bg-sky-500/10 border border-sky-500/20 px-3 py-1 rounded-full">
         {category}
       </span>
-      <span aria-hidden>•</span>
+      <span aria-hidden>·</span>
       <time dateTime={date.toISOString()}>
         {date.toLocaleDateString("fa-IR", {
           year: "numeric",
@@ -66,7 +59,7 @@ function BlogMeta({
           day: "numeric",
         })}
       </time>
-      <span aria-hidden>•</span>
+      <span aria-hidden>·</span>
       <span>زمان مطالعه: {readTime} دقیقه</span>
     </div>
   )
@@ -76,28 +69,25 @@ function BlogAuthor() {
   return (
     <div className="flex items-center gap-4">
       <div
-        className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center font-bold text-white/40"
+        className="w-12 h-12 rounded-full bg-sky-500/10 border border-sky-500/20 flex items-center justify-center font-bold text-sky-400/60"
         aria-hidden
       >
         B
       </div>
       <div>
-        <p className="text-sm font-semibold">تجروبیات بارش</p>
+        <p className="text-sm font-semibold text-white/85">تجربیات بارش</p>
         <p className="text-xs text-white/40">مرجع تخصصی شیرآلات بهداشتی و خانگی</p>
       </div>
     </div>
   )
 }
 
-
 export default async function BlogDetail({ params }: IProps) {
   const { slug } = await params
   const post = await getBlogBySlug(slug)
-
   if (!post) notFound()
 
   const publishedDate = new Date(post.createdAt).toISOString()
-
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -111,25 +101,23 @@ export default async function BlogDetail({ params }: IProps) {
     },
   }
 
-
   return (
     <>
-      {/* JSON-LD structured data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
       <main dir="rtl" className="text-white mt-20 min-h-screen">
-        <article className="container mx-auto pt-16 pb-24 px-4 max-w-4xl">
+        <article className="container mx-auto pt-16 pb-24 px-4 md:px-8 max-w-4xl">
 
           {/* Breadcrumb */}
           <nav aria-label="breadcrumb" className="flex items-center gap-2 text-xs text-white/30 mb-10">
-            <Link href="/" className="hover:text-white transition-colors">خانه</Link>
-            <span aria-hidden>/</span>
-            <Link href="/blog" className="hover:text-white transition-colors">وبلاگ</Link>
-            <span aria-hidden>/</span>
-            <span className="text-white/60 truncate" aria-current="page">{post.title}</span>
+            <Link href="/" className="hover:text-sky-300 transition-colors">خانه</Link>
+            <span aria-hidden className="text-white/20">/</span>
+            <Link href="/blog" className="hover:text-sky-300 transition-colors">وبلاگ</Link>
+            <span aria-hidden className="text-white/20">/</span>
+            <span className="text-sky-300/70 truncate" aria-current="page">{post.title}</span>
           </nav>
 
           {/* Header */}
@@ -139,13 +127,14 @@ export default async function BlogDetail({ params }: IProps) {
               createdAt={post.createdAt}
               readTime={post.readTime}
             />
-            <h1 className="text-2xl md:text-5xl font-bold leading-tight mb-8 bg-linear-to-b from-white to-white/60 bg-clip-text text-transparent">
+            <h1 className="text-2xl md:text-4xl font-bold leading-tight mb-6 text-white/90">
               {post.title}
             </h1>
+            <div className="w-10 h-px bg-sky-500/40" />
           </header>
 
           {/* Hero image */}
-          <div className="relative aspect-video mb-16 rounded-3xl overflow-hidden border border-white/10 shadow-2xl group">
+          <div className="relative aspect-video mb-16 rounded-2xl overflow-hidden border border-sky-500/15 shadow-2xl shadow-sky-950/30 group">
             <Image
               src={post.image}
               alt={post.title}
@@ -154,23 +143,24 @@ export default async function BlogDetail({ params }: IProps) {
               className="object-cover transition-transform duration-700 group-hover:scale-105"
               priority
             />
-            <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-[#0a0f1a]/60 via-transparent to-transparent" />
           </div>
 
           {/* Content */}
           <div className="relative">
-            <div className="absolute -right-20 top-0 w-64 h-64 bg-white/5 blur-[100px] rounded-full pointer-events-none" aria-hidden />
+            <div className="absolute -right-20 top-0 w-64 h-64 bg-sky-500/5 blur-[100px] rounded-full pointer-events-none" aria-hidden />
             <div
-              className="prose prose-invert prose-lg max-w-none [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:text-white [&_p]:text-white/80"
+              className="prose prose-invert prose-lg max-w-none [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:text-white [&_p]:text-white/70 [&_a]:text-sky-400 [&_a:hover]:text-sky-300 [&_strong]:text-white/90 [&_blockquote]:border-sky-500/30 [&_blockquote]:text-white/60 text-justify leading-14"
               dangerouslySetInnerHTML={{ __html: decode(post.content) }}
-            /></div>
+            />
+          </div>
 
           {/* Footer */}
-          <footer className="mt-20 pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
+          <footer className="mt-20 pt-10 border-t border-sky-500/15 flex flex-col md:flex-row justify-between items-center gap-6">
             <BlogAuthor />
             <Link
               href="/blog"
-              className="px-6 py-2 border border-white/10 rounded-xl text-sm hover:bg-white/5 transition-colors"
+              className="px-6 py-2.5 border border-sky-500/20 text-sky-400/70 rounded-xl text-sm hover:bg-sky-500/10 hover:text-sky-300 hover:border-sky-400/40 transition-all duration-200"
             >
               بازگشت به وبلاگ
             </Link>
