@@ -28,17 +28,22 @@ export default function EditProductModal({
   const [pdf, setPdf] = useState<File | null>(null)
   const [saving, setSaving] = useState(false)
 
-  const { register, handleSubmit } = useForm<IProduct>({
+  type ProductFormValues = Omit<IProduct, "features" | "keywords"> & {
+    features: string;
+    keywords: string;
+  };
+
+  const { register, handleSubmit } = useForm<ProductFormValues>({
     defaultValues: {
       ...product,
       features: Array.isArray(product.features)
         ? product.features.join(", ")
-        : product.features,
+        : (product.features as string) ?? "",
       keywords: Array.isArray(product.keywords)
         ? product.keywords.join(", ")
-        : product.keywords,
+        : (product.keywords as string) ?? "",
     },
-  })
+  });
 
   const toArray = (val: unknown): string[] => {
     if (Array.isArray(val)) return val
@@ -58,7 +63,7 @@ export default function EditProductModal({
 
   const currentPdfName = pdf?.name || product.catalogPdf?.split("/").pop() || "فایلی ثبت نشده"
 
-  const onSubmit = async (data: IProduct) => {
+  const onSubmit = async (data: ProductFormValues) => {
     try {
       setSaving(true)
 
@@ -305,7 +310,7 @@ export default function EditProductModal({
             <button
               type="submit"
               disabled={saving}
-              className="rounded-2xl bg-gradient-to-l from-sky-500 to-indigo-500 px-5 py-3 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md disabled:cursor-not-allowed disabled:opacity-70"
+              className="rounded-2xl bg-linear-to-l from-sky-500 to-indigo-500 px-5 py-3 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md disabled:cursor-not-allowed disabled:opacity-70"
             >
               {saving ? "در حال ذخیره..." : "ذخیره تغییرات"}
             </button>

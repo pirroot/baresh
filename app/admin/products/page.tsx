@@ -57,13 +57,6 @@ export default async function AdminProductsPage() {
                         <p className="truncate text-sm font-semibold text-slate-800">
                           {product.title}
                         </p>
-                        <p className="mt-1 text-xs text-slate-400">
-                          قیمت:{" "}
-                          {product.price
-                            ? product.price.toLocaleString("fa-IR")
-                            : "—"}{" "}
-                          تومان
-                        </p>
                       </div>
                     </div>
                   </td>
