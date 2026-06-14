@@ -1,3 +1,4 @@
+import ProductComments from "@/components/Product/ProductComments"
 import { getProductBySlug } from "@/services/Product/productServices"
 import { ChevronDown, FileDown, Phone } from "lucide-react"
 import type { Metadata } from "next"
@@ -174,7 +175,7 @@ export default async function ProductDetail({ params }: IProductDetailProps) {
               </div>
             </details>
           )}
-
+          <ProductComments productId={product.id} />
         </section>
       </main>
     </>

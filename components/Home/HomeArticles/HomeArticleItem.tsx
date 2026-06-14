@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default function HomeArticleItem({ article }: Props) {
-  const { slug, image, title, date } = article;
+  const { slug, image, title, updatedAt } = article;
   return (
     <article className="
       relative overflow-hidden
@@ -32,10 +32,10 @@ export default function HomeArticleItem({ article }: Props) {
 
       <div className="flex flex-col gap-3 p-5 flex-1">
         <time
-          dateTime={date}
+          dateTime={updatedAt}
           className="text-sky-400/60 text-xs font-semibold tracking-widest uppercase"
         >
-          {new Date(date).toLocaleDateString("fa-IR", {
+          {new Date(updatedAt).toLocaleDateString("fa-IR", {
             year: "numeric",
             month: "long",
             day: "numeric",

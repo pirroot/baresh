@@ -11,29 +11,55 @@ interface IProps {
 
 export async function generateMetadata({ params }: IProps): Promise<Metadata> {
   const { slug } = await params
+
   const post = await getBlogBySlug(slug)
-  if (!post) return { title: "مقاله پیدا نشد" }
+
+  if (!post) {
+    return { title: "مقاله پیدا نشد" }
+  }
+
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL
   const imageUrl = Array.isArray(post.image) ? post.image[0] : post.image
+
+  const description =
+    post.seoDescription ??
+    post.content?.replace(/<[^>]*>/g, "").slice(0, 160)
+
   return {
     title: post.seoTitle || `${post.title} | وبلاگ بارش`,
-    description: post.seoDescription,
+    description,
+
     keywords: post.keywords as string[] | null,
-    alternates: { canonical: `/blog/${slug}` },
+
+    alternates: {
+      canonical: `${baseUrl}/blog/${slug}`,
+    },
+
     openGraph: {
       title: post.title,
-      description: post.seoDescription ?? post.content?.slice(0, 160),
+      description,
+      url: `${baseUrl}/blog/${slug}`,
       type: "article",
       publishedTime: new Date(post.createdAt).toISOString(),
-      images: [{ url: imageUrl, width: 1200, height: 630, alt: post.title }],
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
     },
+
     twitter: {
       card: "summary_large_image",
       title: post.seoTitle || post.title,
-      description: post.seoDescription ?? "",
+      description,
       images: [imageUrl],
     },
   }
 }
+
 
 function BlogMeta({
   category,

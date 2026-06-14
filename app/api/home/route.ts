@@ -13,6 +13,7 @@ export async function GET() {
         category: true,
         description: true,
       },
+      orderBy: { createdAt: 'desc' },
     }),
     prisma.post.findMany({
       select: {

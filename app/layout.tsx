@@ -16,12 +16,12 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://bareshco.com"),
 
   title: {
-    default: "شیرآلات بهداشتی بارش | کارخانه تولیدی شیرآلات خانگی باکیفیت",
-    template: "%s | شیرآلات بهداشتی بارش",
+    default: "شیرآلات بارش | تولیدکننده شیرآلات بهداشتی",
+    template: "%s | شیرآلات بارش",
   },
 
   description:
-    "کارخانه تولیدی شیرآلات بهداشتی بارش - تولیدکننده شیر ظرفشویی، شیر روشویی، شیر حمام و شیرآلات ساختمانی باکیفیت با ضمانت اصالت. تکیه بر دانش فنی، تجهیزات مدرن و استانداردهای روز تولید برای خانه‌های ایرانی.",
+    "کارخانه تولیدی شیرآلات بارش، تولیدکننده شیر ظرفشویی، روشویی، حمام و شیرآلات ساختمانی باکیفیت با ضمانت اصالت برای خانه‌های ایرانی.",
 
   keywords: [
     "شیرآلات بارش",
@@ -37,9 +37,9 @@ export const metadata: Metadata = {
     "شیرآلات ایرانی",
   ],
 
-  authors: [{ name: "Barsh Faucet Manufacturing Co." }],
-  creator: "Barsh Faucet Manufacturing Co.",
-  publisher: "Barsh Faucet Manufacturing Co.",
+  authors: [{ name: "شیرآلات بارش" }],
+  creator: "شیرآلات بارش",
+  publisher: "شیرآلات بارش",
   applicationName: "شیرآلات بارش",
 
   alternates: {
@@ -50,18 +50,21 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: [
-      { url: "/images/favicon.ico", sizes: "any" },
-      { url: "/images/logo-top.webp", type: "image/webp" },
-    ],
+    icon: [{ url: "/images/favicon.ico", sizes: "any" }],
     shortcut: "/images/favicon.ico",
-    apple: [{ url: "/images/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    apple: [
+      {
+        url: "/images/apple-touch-icon.png",
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
   },
 
   openGraph: {
-    title: "شیرآلات بهداشتی بارش | کارخانه تولیدی شیرآلات بهداشتی و خانگی",
+    title: "شیرآلات بارش | تولیدکننده شیرآلات بهداشتی",
     description:
-      "کارخانه تولیدی شیرآلات بارش - شیر ظرفشویی، روشویی، حمام و شیرآلات ساختمانی باکیفیت با ضمانت اصالت و قیمت مناسب.",
+      "کارخانه تولیدی شیرآلات بارش، تولیدکننده شیر ظرفشویی، روشویی، حمام و شیرآلات ساختمانی باکیفیت با ضمانت اصالت.",
     url: "https://bareshco.com",
     siteName: "شیرآلات بارش",
     locale: "fa_IR",
@@ -71,7 +74,7 @@ export const metadata: Metadata = {
         url: "https://bareshco.com/images/og-image.webp",
         width: 1200,
         height: 630,
-        alt: "کارخانه تولیدی شیرآلات بارش - شیرآلات خانگی باکیفیت",
+        alt: "شیرآلات بارش",
         type: "image/webp",
       },
     ],
@@ -79,9 +82,9 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "شیرآلات بارش | کارخانه تولیدی شیرآلات خانگی",
+    title: "شیرآلات بارش | تولیدکننده شیرآلات بهداشتی",
     description:
-      "شیر ظرفشویی، روشویی، حمام و شیرآلات ساختمانی باکیفیت با ضمانت اصالت - کارخانه بارش",
+      "کارخانه تولیدی شیرآلات بارش، تولیدکننده شیر ظرفشویی، روشویی، حمام و شیرآلات ساختمانی باکیفیت.",
     images: ["https://bareshco.com/images/og-image.webp"],
   },
 
@@ -104,11 +107,10 @@ export const metadata: Metadata = {
   category: "shopping",
 
   other: {
-    "geo.region": "IR",
-    "geo.placename": "Iran",
     "format-detection": "telephone=no",
   },
-}
+};
+
 
 export default function RootLayout({
   children,

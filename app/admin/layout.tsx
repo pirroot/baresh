@@ -7,6 +7,7 @@ import {
   MdArticle,
   MdInventory,
   MdLogout,
+  MdComment,
 } from "react-icons/md";
 import { Info } from "lucide-react";
 import { FaQ } from "react-icons/fa6";
@@ -15,6 +16,7 @@ const navItems = [
   { href: "/admin", label: "داشبورد", icon: MdDashboard, exact: true },
   { href: "/admin/blog", label: "مدیریت بلاگ", icon: MdArticle },
   { href: "/admin/products", label: "مدیریت محصولات", icon: MdInventory },
+  { href: "/admin/products/comments", label: "مدیریت کامنت محصولات", icon: MdComment },
   { href: "/admin/info", label: "مشخصات سایت", icon: Info },
   { href: "/admin/faq", label: "مدیریت سوال و جواب‌ها", icon: FaQ },
   { href: "/admin/slider", label: "مدیریت اسلایدر", icon: FaQ },

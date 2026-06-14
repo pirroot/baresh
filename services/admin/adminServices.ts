@@ -68,3 +68,19 @@ export const updateProductAdminApi = async (
   });
   return await result.json();
 };
+
+export async function getProductCommentsAdmin() {
+  return await prisma.productComment.findMany({
+    include: {
+      product: {
+        select: {
+          title: true,
+          slug: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+}
