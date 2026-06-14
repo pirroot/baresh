@@ -1,12 +1,12 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { approveProductComment } from '@/services/admin/adminCommentService';
 
 export async function PATCH(
-  req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  await approveProductComment(params.id);
-
+  const { id } = await params;
+  await approveProductComment(id);
   return NextResponse.json({
     success: true,
   });
