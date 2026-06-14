@@ -3,9 +3,13 @@ import { getProductComments } from '@/services/commentService';
 
 export async function GET(
   req: Request,
-  { params }: { params: { productId: string } }
+  { params }: { params: Promise<{ productId: string }> }
 ) {
-  const comments = await getProductComments(params.productId);
-
-  return NextResponse.json(comments);
+  try {
+    const { productId } = await params;
+    const comments = await getProductComments(productId);
+    return NextResponse.json(comments);
+  } catch (error) {
+    return NextResponse.json({ error: 'خطا در دریافت نظرات' }, { status: 500 });
+  }
 }

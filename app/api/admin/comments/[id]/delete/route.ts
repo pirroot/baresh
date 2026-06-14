@@ -1,12 +1,12 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import { deleteProductComment } from '@/services/admin/adminCommentService';
 
 export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  await deleteProductComment(params.id);
-
+  const { id } = await params;
+  await deleteProductComment(id);
   return NextResponse.json({
     success: true,
   });
