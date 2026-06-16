@@ -1,5 +1,5 @@
 import HeroSlider from "@/components/Home/TopPage/HeroSlider";
-import TypeitHome from "@/components/Home/Typeit/Typeit-Home";
+import TypeitHome from "./Typeit-Home";
 import { getHomeDataApi } from "@/services/homeServices";
 import Link from "next/link";
 

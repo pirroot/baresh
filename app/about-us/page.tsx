@@ -185,7 +185,7 @@ export default async function AboutPage() {
   }
 
   return (
-    <main dir="rtl" className="relative overflow-hidden bg-linear-to-br from-slate-950 via-slate-900 to-slate-950">
+    <main dir="rtl" className="relative overflow-hidden ">
       {/* JSON-LD for SEO */}
       <script
         type="application/ld+json"
@@ -197,7 +197,7 @@ export default async function AboutPage() {
         <div className="absolute left-[-10%] top-16 h-96 w-96 rounded-full bg-sky-500/10 blur-3xl animate-pulse" />
         <div className="absolute right-[-5%] top-1/3 h-80 w-80 rounded-full bg-indigo-500/8 blur-3xl animate-pulse delay-1000" />
         <div className="absolute bottom-0 left-1/3 h-96 w-96 rounded-full bg-sky-500/5 blur-3xl animate-pulse delay-500" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-linear-to-r from-sky-500/5 to-indigo-500/5 blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800] h-[800] rounded-full bg-linear-to-r from-sky-500/5 to-indigo-500/5 blur-3xl" />
       </div>
 
       {/* ========== HERO SECTION ========== */}
@@ -481,65 +481,6 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/* ========== CTA SECTION ========== */}
-      <section className="container mx-auto px-4 md:px-8 lg:px-12 pb-20">
-        <div className="relative overflow-hidden rounded-3xl border border-sky-500/30 bg-linear-to-br from-sky-600/10 via-sky-500/5 to-transparent p-8 md:p-12">
-          {/* Animated Background */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-sky-500/20 blur-3xl animate-pulse" />
-            <div className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-indigo-500/20 blur-3xl animate-pulse delay-1000" />
-          </div>
-
-          <div className="relative z-10 flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/10 px-4 py-2 mb-4">
-                <HandshakeIcon size={14} className="text-sky-400" />
-                <span className="text-xs font-semibold text-sky-300">همکاری با بارش صنعتی</span>
-              </div>
-              <h2 className="text-2xl font-bold text-white md:text-3xl lg:text-4xl">
-                برای آشنایی بیشتر با محصولات و ظرفیت همکاری، با ما در تماس باشید
-              </h2>
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-white/70">
-                اگر به‌دنبال یک برند قابل اعتماد در حوزه شیرآلات خانگی و بهداشتی هستید، تیم بارش صنعتی
-                آماده پاسخ‌گویی و ارائه اطلاعات تکمیلی به شماست.
-              </p>
-
-              {/* Contact Info */}
-              <div className="mt-6 flex flex-wrap gap-4">
-                <div className="flex items-center gap-2 text-sm text-white/60">
-                  <Phone size={14} className="text-sky-400" />
-                  <span>۰۲۱-۱۲۳۴۵۶۷۸</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-white/60">
-                  <Mail size={14} className="text-sky-400" />
-                  <span>info@bareshco.com</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-white/60">
-                  <MapPin size={14} className="text-sky-400" />
-                  <span>تهران، شهرک صنعتی سلمان‌شهر</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-3 sm:flex-row shrink-0">
-              <Link
-                href="/contact-us"
-                className="group inline-flex items-center justify-center gap-2 rounded-2xl bg-linear-to-r from-sky-600 to-sky-700 hover:from-sky-500 hover:to-sky-600 px-8 py-4 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-1 shadow-lg shadow-sky-900/40"
-              >
-                تماس با ما
-                <Phone size={16} className="group-hover:animate-pulse" />
-              </Link>
-              <Link
-                href="/products"
-                className="inline-flex items-center justify-center gap-2 rounded-2xl border border-sky-500/30 bg-sky-500/10 px-8 py-4 text-sm font-medium text-white/85 transition-all duration-300 hover:bg-sky-500/20 hover:-translate-y-1"
-              >
-                مشاهده محصولات
-                <ArrowLeft size={16} />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
     </main>
   )
 }

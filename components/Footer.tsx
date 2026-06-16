@@ -1,73 +1,135 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FiCoffee, FiExternalLink } from "react-icons/fi";
+import {
+  FiCoffee,
+  FiExternalLink,
+  FiMapPin,
+  FiPhone,
+  FiMail,
+  FiInstagram,
+  FiYoutube,
+  FiLinkedin
+} from "react-icons/fi";
+import { FaTelegram } from "react-icons/fa";
 
-const links = [
-  { href: "https://bareshstore.com/", title: "سایت فروشگاهی بارش", label: "فروشگاه آنلاین", external: true },
-  { href: "/licenses", title: "مدارک معتبر بارش", label: "گواهی‌نامه‌ها" },
-  { href: "/faq", title: "سوالات متداول", label: "پرسش‌های متداول" },
-  { href: "/contact-us", title: "تماس با ما", label: "ارتباط با ما" },
-]
+// ===== لینک‌ها =====
+const quickLinks = [
+  { href: "/products", label: "محصولات" },
+  { href: "/about-us", label: "درباره ما" },
+  { href: "/blog", label: "مقالات" },
+  { href: "/contact-us", label: "تماس با ما" },
+];
 
+const services = [
+  { href: "/guarantee", label: "گارانتی" },
+  { href: "/faq", label: "سوالات متداول" },
+  { href: "/catalog", label: "کاتالوگ" },
+  { href: "https://bareshstore.com/", label: "فروشگاه آنلاین", external: true },
+];
+// ===== فوتر =====
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer className="container mx-auto mt-12 mb-6 px-4 md:px-8 lg:px-12">
-      <div className="rounded-2xl border border-sky-500/15 bg-[#0a0f1a]/80 backdrop-blur-xl p-8 shadow-2xl shadow-sky-950/30">
+      <div className="rounded-2xl border border-sky-500/15 bg-sky-500/5 backdrop-blur-xl p-6 md:p-8 shadow-2xl shadow-sky-950/30">
 
-        {/* Top row */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 pb-8 border-b border-white/8">
-          <Link href="/" aria-label="صفحه اصلی شیرآلات بارش" className="group shrink-0">
-            <Image
-              src="/images/logo-footer.webp"
-              alt="لوگو شیرآلات بهداشتی بارش"
-              width={120}
-              height={45}
-              className="opacity-70 group-hover:opacity-100 transition-opacity duration-300"
-            />
-          </Link>
+        {/* ===== گرید اصلی ===== */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-8 border-b border-white/8">
 
-          <nav aria-label="لینک‌های پایین صفحه">
-            <ul className="flex flex-wrap justify-center gap-1.5">
-              {links.map(({ href, title, label, external }) => (
+          {/* لوگو و اطلاعات تماس */}
+          <div className="md:col-span-5 space-y-4">
+            <Link href="/" className="inline-block">
+              <Image
+                src="/images/logo-footer.webp"
+                alt="لوگو شیرآلات بارش"
+                width={130}
+                height={48}
+                className="opacity-80 hover:opacity-100 transition-opacity"
+              />
+            </Link>
+
+            {/* اطلاعات تماس */}
+            <div className="space-y-2 text-sm text-white/40">
+              <div className="flex items-center gap-3">
+                <FiPhone className="text-sky-400/60 w-4 h-4" />
+                <a href="tel:+989123023349" className="hover:text-sky-400 transition">
+                  ۰۹۱۲-۳۰۲-۳۳۴۹
+                </a>
+              </div>
+              <div className="flex items-center gap-3">
+                <FiMapPin className="text-sky-400/60 w-4 h-4" />
+                <span>اردبیل — شهرستان گرمی — شهرک صنعتی — شیرآلات بارش</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <FiMail className="text-sky-400/60 w-4 h-4" />
+                <a href="mailto:info@bareshco.com" className="hover:text-sky-400 transition">
+                  info@bareshco.com
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* لینک‌های سریع */}
+          <div className="md:col-span-3">
+            <h3 className="text-sm font-semibold text-white/80 mb-4">دسترسی سریع</h3>
+            <ul className="space-y-2.5">
+              {quickLinks.map(({ href, label }) => (
                 <li key={href}>
                   <Link
                     href={href}
-                    title={title}
-                    {...(external && { target: "_blank", rel: "noopener noreferrer" })}
-                    className="flex items-center gap-1.5 text-sm text-white/50 hover:text-sky-300 px-4 py-2 rounded-full hover:bg-sky-500/10 border border-transparent hover:border-sky-500/20 transition-all duration-300"
+                    className="text-sm text-white/40 hover:text-sky-400 transition-colors hover:pr-2"
                   >
                     {label}
-                    {external && <FiExternalLink size={11} className="opacity-60" />}
                   </Link>
                 </li>
               ))}
             </ul>
-          </nav>
+          </div>
+
+          {/* خدمات و شبکه‌های اجتماعی */}
+          <div className="md:col-span-4">
+            <h3 className="text-sm font-semibold text-white/80 mb-4">خدمات</h3>
+            <ul className="space-y-2.5 mb-4">
+              {services.map(({ href, label, external }) => (
+                <li key={href}>
+                  <Link
+                    href={href}
+                    {...(external && { target: "_blank", rel: "noopener noreferrer" })}
+                    className="inline-flex items-center gap-1.5 text-sm text-white/40 hover:text-sky-400 transition-colors hover:pr-2"
+                  >
+                    {label}
+                    {external && <FiExternalLink size={10} className="opacity-50" />}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
-        {/* Bottom row */}
+        {/* ===== پایین فوتر ===== */}
         <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-4 pt-6 text-xs text-white/35">
           <p>
-            <span>&copy; {new Date().getFullYear()} تمامی حقوق محفوظ است.{" "}</span>
+            <span>&copy; {currentYear} </span>
             <span className="text-white/70 font-medium">گروه بهداشتی بارش</span>
+            <span> | تمامی حقوق محفوظ است.</span>
           </p>
 
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky-500/8 border border-sky-500/15">
-            <span>طراحی و اجرا:</span>
+            <span className="text-white/40">طراحی و اجرا:</span>
             <Link
               href="https://pirroot.top"
               className="flex items-center gap-1.5 text-sky-400 hover:text-sky-300 transition-colors font-medium"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="گیتهاب سینا پیرزاده"
             >
               سینا پیرزاده
-              <FiCoffee size={13} />
+              <FiCoffee size={13} className="text-amber-400/60" />
             </Link>
           </div>
         </div>
 
       </div>
     </footer>
-  )
+  );
 }

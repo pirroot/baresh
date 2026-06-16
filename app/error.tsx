@@ -1,5 +1,7 @@
 'use client';
 
+import { AlertTriangle, RefreshCw } from "lucide-react";
+
 export default function ErrorPage({
   error,
   reset,
@@ -8,31 +10,32 @@ export default function ErrorPage({
   reset: () => void;
 }) {
   return (
-    <main dir="rtl" className="min-h-screen flex items-center justify-center px-4">
+    <main dir="rtl" className="min-h-screen flex items-center justify-center px-4 bg-slate-950">
       <section className="flex flex-col items-center text-center gap-6 max-w-md">
-
-        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-sky-500/10 border border-sky-500/20">
-          <span className="text-2xl text-sky-400">!</span>
+        {/* آیکون */}
+        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-red-500/10 border border-red-500/20">
+          <AlertTriangle className="w-8 h-8 text-red-400" />
         </div>
 
+        {/* متن */}
         <div className="space-y-3">
-          <h1 className="text-2xl font-bold text-white/90">مشکلی پیش آمد</h1>
-          <div className="w-10 h-px bg-sky-500/40 mx-auto" />
+          <h1 className="text-2xl font-bold text-white">خطا!</h1>
           <p className="text-sm text-white/50 leading-7">
-            متأسفانه یک خطا رخ داده است:
+            متأسفانه یک مشکل فنی پیش آمده است.
           </p>
-          <p className="text-sm font-medium text-sky-300/80 bg-sky-500/8 border border-sky-500/15 rounded-xl px-4 py-3">
+          <p className="text-sm text-red-400/80 bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3 break-all">
             {error.message || 'خطای ناشناخته'}
           </p>
         </div>
 
+        {/* دکمه */}
         <button
           onClick={() => reset()}
-          className="inline-flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-500 text-white text-sm font-semibold px-6 py-3 rounded-xl transition-all duration-300 shadow-lg shadow-sky-900/40 hover:-translate-y-px active:scale-95"
+          className="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-500 text-white text-sm font-semibold px-6 py-3 rounded-xl transition-all active:scale-95"
         >
+          <RefreshCw className="w-4 h-4" />
           تلاش مجدد
         </button>
-
       </section>
     </main>
   );
