@@ -74,7 +74,7 @@ export default function AdminLogin() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-2xl bg-gradient-to-l from-sky-500 to-indigo-500 py-3 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md disabled:opacity-60"
+            className="w-full rounded-2xl bg-linear-to-l from-sky-500 to-indigo-500 py-3 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md disabled:opacity-60"
           >
             {loading ? "در حال ورود..." : "ورود"}
           </button>

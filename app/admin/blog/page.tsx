@@ -14,6 +14,7 @@ import {
 } from '@/services/admin/blogServices'
 import RichEditor from '@/components/RichEditor'
 import sanitizeHtml from 'sanitize-html'
+import Image from 'next/image'
 
 const inputClass =
   'w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 outline-none transition-all focus:border-sky-400 focus:ring-4 focus:ring-sky-100'
@@ -214,7 +215,7 @@ export default function AdminBlogPage() {
 
         <button
           onClick={openCreate}
-          className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-l from-sky-500 to-indigo-500 px-5 py-3 text-sm font-medium text-white shadow-md transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          className="inline-flex items-center justify-center gap-2 rounded-2xl bg-linear-to-l from-sky-500 to-indigo-500 px-5 py-3 text-sm font-medium text-white shadow-md transition-all hover:-translate-y-0.5 hover:shadow-lg"
         >
           <MdAdd size={18} />
           پست جدید
@@ -274,7 +275,7 @@ export default function AdminBlogPage() {
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         {post.image ? (
-                          <img
+                          <Image
                             src={post.image}
                             alt={post.title}
                             className="h-12 w-12 rounded-xl border border-slate-200 object-cover bg-slate-100"
@@ -413,7 +414,7 @@ export default function AdminBlogPage() {
 
               {imagePreview && (
                 <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-3">
-                  <img
+                  <Image
                     src={imagePreview}
                     alt="preview"
                     className="h-32 w-full rounded-xl object-cover"
@@ -486,7 +487,7 @@ export default function AdminBlogPage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-l from-sky-500 to-indigo-500 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
+                  className="inline-flex items-center gap-2 rounded-2xl bg-linear-to-l from-sky-500 to-indigo-500 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {saving ? (
                     'در حال ذخیره...'

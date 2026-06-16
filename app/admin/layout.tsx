@@ -41,8 +41,8 @@ export default function AdminLayout({
       <aside className="fixed right-0 top-0 h-screen w-72 bg-white/50 backdrop-blur-sm border-l border-slate-200 shadow-sm flex flex-col">
         {/* Header */}
         <div className="p-6 border-b border-slate-100">
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-sky-500 to-indigo-500 flex items-center justify-center text-white font-bold shadow-md">
+          <Link href={'/'} className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-2xl bg-linear-to-br from-sky-500 to-indigo-500 flex items-center justify-center text-white font-bold shadow-md">
               ب
             </div>
             <div>
@@ -51,7 +51,7 @@ export default function AdminLayout({
                 پنل بارش
               </h2>
             </div>
-          </div>
+          </Link>
         </div>
 
         {/* Nav */}

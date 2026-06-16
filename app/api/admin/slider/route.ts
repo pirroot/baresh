@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { id, createdAt, updatedAt, ...data } = body;
+    const { id, ...data } = body;
 
     if (!id) {
       if (!data.title || !data.image) {

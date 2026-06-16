@@ -15,11 +15,7 @@ export const metadata: Metadata = {
   },
 }
 
-interface IBlogPageProps {
-  searchParams: Promise<{ page?: string }>
-}
-
-export default async function BlogPage({ searchParams }: IBlogPageProps) {
+export default async function BlogPage() {
   const articles = await getBlogAdminApi()
 
   return (

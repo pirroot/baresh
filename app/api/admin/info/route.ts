@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { id, createdAt, updatedAt, ...data } = body;
+    const {...data } = body;
 
     const updatedInfo = await prisma.siteInfo.upsert({
       where: { id: 1 },

@@ -9,7 +9,7 @@ export async function GET(
     const { productId } = await params;
     const comments = await getProductComments(productId);
     return NextResponse.json(comments);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'خطا در دریافت نظرات' }, { status: 500 });
   }
 }

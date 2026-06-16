@@ -28,7 +28,7 @@ export default function RichEditor({ value, onChange }: Props) {
     if (editor && value !== editor.getHTML()) {
       editor.commands.setContent(value)
     }
-  }, [value])
+  }, [value, editor])
 
   return (
     <div className="border rounded-md p-3">

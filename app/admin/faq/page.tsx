@@ -71,7 +71,7 @@ export default function FAQPage() {
 
           <button
             onClick={() => setIsModalOpen(true)}
-            className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-l from-sky-500 to-indigo-500 px-5 py-3 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md"
+            className="inline-flex items-center justify-center gap-2 rounded-2xl bg-linear-to-l from-sky-500 to-indigo-500 px-5 py-3 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md"
           >
             <Plus size={18} />
             اضافه کردن سوال
@@ -178,7 +178,7 @@ export default function FAQPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full rounded-2xl bg-gradient-to-l from-sky-500 to-indigo-500 px-5 py-3 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md disabled:opacity-60 sm:w-auto"
+                  className="w-full rounded-2xl bg-linear-to-l from-sky-500 to-indigo-500 px-5 py-3 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md disabled:opacity-60 sm:w-auto"
                 >
                   {loading ? 'در حال ذخیره...' : 'ذخیره سوال'}
                 </button>

@@ -5,6 +5,7 @@ import { getProductAdminApi } from "@/services/admin/adminServices"
 import { IProduct } from "@/types/ProductDto"
 import { DeleteButton } from "@/components/Admin/Product/DeleteButton"
 import { EditButton } from "@/components/Admin/Product/EditButton"
+import Image from "next/image"
 
 export default async function AdminProductsPage() {
   const products = await getProductAdminApi()
@@ -48,7 +49,7 @@ export default async function AdminProductsPage() {
                 <tr key={product.id} className="transition-colors hover:bg-slate-50/80">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-4">
-                      <img
+                      <Image
                         src={product.image}
                         alt={product.title}
                         className="h-16 w-16 rounded-xl border border-slate-200 object-cover bg-slate-100 shadow-sm"

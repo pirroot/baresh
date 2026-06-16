@@ -7,8 +7,12 @@ export const getProductAdminApi = async () => {
   const data = await fetch(`${baseUrl}/api/admin/products`);
   return await data.json();
 };
+export type CreateProductInput = Omit<
+  IProduct,
+  'id' | 'createdAt' | 'updatedAt' | 'category'
+>;
 
-export const createProductAdminApi = async (product: IProduct) => {
+export const createProductAdminApi = async (product: CreateProductInput) => {
   const result = await fetch(`${baseUrl}/api/admin/products`, {
     method: 'POST',
     headers: {
@@ -16,7 +20,12 @@ export const createProductAdminApi = async (product: IProduct) => {
     },
     body: JSON.stringify(product),
   });
-  return await result.json();
+
+  if (!result.ok) {
+    throw new Error('Failed to create product');
+  }
+
+  return result.json() as Promise<IProduct>;
 };
 
 export const deleteProductAdminApi = async (id: string) => {

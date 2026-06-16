@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const result = await prisma.post.findMany({
       orderBy: { createdAt: 'desc' },
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { id, date, updatedAt, createdAt, ...data } = body;
+    const { id, ...data } = body;
 
     if (!id) {
       if (!data.title || !data.slug) {

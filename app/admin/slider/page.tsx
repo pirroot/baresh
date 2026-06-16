@@ -23,6 +23,7 @@ import {
   deleteSliderAdminApi,
   uploadSliderImage,
 } from '@/services/admin/sliderServices'
+import Image from 'next/image'
 
 const inputClass =
   'w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 outline-none transition-all focus:border-sky-400 focus:ring-4 focus:ring-sky-100'
@@ -168,7 +169,7 @@ export default function AdminSliderPage() {
 
           <button
             onClick={openCreate}
-            className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-l from-sky-500 to-indigo-500 px-5 py-3 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md"
+            className="inline-flex items-center justify-center gap-2 rounded-2xl bg-linear-to-l from-sky-500 to-indigo-500 px-5 py-3 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md"
           >
             <ImagePlus size={18} />
             اسلاید جدید
@@ -195,7 +196,7 @@ export default function AdminSliderPage() {
             </p>
             <button
               onClick={openCreate}
-              className="mt-6 inline-flex items-center gap-2 rounded-2xl bg-gradient-to-l from-sky-500 to-indigo-500 px-5 py-3 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md"
+              className="mt-6 inline-flex items-center gap-2 rounded-2xl bg-linear-to-l from-sky-500 to-indigo-500 px-5 py-3 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md"
             >
               <ImagePlus size={18} />
               ایجاد اسلاید
@@ -210,7 +211,7 @@ export default function AdminSliderPage() {
               >
                 <div className="relative aspect-video overflow-hidden bg-slate-100">
                   {slider.image ? (
-                    <img
+                    <Image
                       src={slider.image}
                       alt={slider.alt || slider.title || 'slider image'}
                       className="h-full w-full object-cover"
@@ -356,7 +357,7 @@ export default function AdminSliderPage() {
                     <label className={labelClass}>پیش‌نمایش</label>
                     <div className="flex aspect-video items-center justify-center overflow-hidden rounded-2xl border border-dashed border-slate-200 bg-slate-50">
                       {imagePreview ? (
-                        <img
+                        <Image
                           src={imagePreview}
                           alt="preview"
                           className="h-full w-full object-cover"
@@ -385,7 +386,7 @@ export default function AdminSliderPage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-l from-sky-500 to-indigo-500 px-5 py-3 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md disabled:opacity-60 sm:w-auto"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-linear-to-l from-sky-500 to-indigo-500 px-5 py-3 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md disabled:opacity-60 sm:w-auto"
                 >
                   {saving ? (
                     <>

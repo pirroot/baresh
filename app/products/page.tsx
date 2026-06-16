@@ -53,7 +53,7 @@ export default async function Products() {
                   fill
                   className="object-contain p-6 transition-transform duration-500 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1a]/40 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-[#0a0f1a]/40 to-transparent" />
                 <span className="absolute bottom-3 right-3 text-sky-300 text-xs bg-sky-500/15 backdrop-blur-sm px-3 py-1 rounded-full border border-sky-500/20">
                   {product.category}
                 </span>

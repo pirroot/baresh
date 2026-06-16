@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(comment);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: 'خطا در ثبت نظر' }, { status: 500 });
   }
 }

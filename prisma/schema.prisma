@@ -17,10 +17,20 @@ model Product {
   description         String
   product_description String?
   features            Json
+  size                String?
+  weight              String?
+  brand               String? @default("شیرآلات بارشی")
+  model               String?
+  color               String?
+  material            String?
+  faq                 Json?
 
-  seoTitle       String?
-  seoDescription String?
-  keywords       Json?
+  searchTags Json?
+
+  seoTitle         String?
+  seoDescription   String?
+  semanticKeywords Json?
+  canonicalUrl     String?
 
   comments ProductComment[]
 

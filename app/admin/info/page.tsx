@@ -23,6 +23,7 @@ import {
   updateSiteInfoAdminApi,
   uploadAboutImage,
 } from '@/services/admin/siteInfoServices'
+import Image from 'next/image'
 
 const inputClass =
   'w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 outline-none transition-all focus:border-sky-400 focus:ring-4 focus:ring-sky-100'
@@ -93,7 +94,7 @@ export default function AdminInfoPage() {
             type="submit"
             form="info-form"
             disabled={loading}
-            className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-l from-sky-500 to-indigo-500 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md disabled:opacity-60"
+            className="inline-flex items-center gap-2 rounded-2xl bg-linear-to-l from-sky-500 to-indigo-500 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md disabled:opacity-60"
           >
             <Save size={16} />
             {loading ? 'در حال ذخیره...' : 'ذخیره تغییرات'}
@@ -248,9 +249,9 @@ export default function AdminInfoPage() {
           <section className="grid grid-cols-1 gap-6 lg:grid-cols-3">
             <div className={`${sectionClass} flex flex-col`}>
               <label className={labelClass}>تصویر درباره ما</label>
-              <label className="mt-2 flex min-h-[180px] flex-1 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 transition-colors hover:border-sky-400 group">
+              <label className="mt-2 flex min-h-[180] flex-1 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 transition-colors hover:border-sky-400 group">
                 {imagePreview ? (
-                  <img
+                  <Image
                     src={imagePreview}
                     alt="preview"
                     className="h-full w-full rounded-2xl object-cover"
