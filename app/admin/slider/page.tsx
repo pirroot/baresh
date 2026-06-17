@@ -214,6 +214,8 @@ export default function AdminSliderPage() {
                     <Image
                       src={slider.image}
                       alt={slider.alt || slider.title || 'slider image'}
+                      width={1000}
+                      height={1000}
                       className="h-full w-full object-cover"
                     />
                   ) : (
@@ -360,6 +362,8 @@ export default function AdminSliderPage() {
                         <Image
                           src={imagePreview}
                           alt="preview"
+                          width={1000}
+                          height={1000}
                           className="h-full w-full object-cover"
                         />
                       ) : (

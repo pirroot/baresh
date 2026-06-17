@@ -22,11 +22,15 @@ export async function POST(req: NextRequest) {
     .toLowerCase()
     .replace(/\s+/g, '-')
     .replace(/[^a-z0-9\u0600-\u06FF-]/g, '');
+
   const fileName = `${Date.now()}-${Math.floor(Math.random() * 1e9)}-${safeBaseName}${ext}`;
 
-  const dir = path.join(process.cwd(), 'public', 'slider');
+  const dir = path.join('/storeage', 'slider');
   await mkdir(dir, { recursive: true });
   await writeFile(path.join(dir, fileName), buffer);
 
-  return NextResponse.json({ image: `/slider/${fileName}`, fileName });
+  return NextResponse.json({
+    image: `/api/images/slider/${fileName}`,
+    fileName,
+  });
 }

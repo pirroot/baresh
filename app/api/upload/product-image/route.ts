@@ -31,9 +31,7 @@ export async function POST(req: NextRequest) {
 
   const dir = path.join('/storeage', 'product');
   await mkdir(dir, { recursive: true });
-
-  const filePath = path.join(dir, fileName);
-  await writeFile(filePath, buffer);
+  await writeFile(path.join(dir, fileName), buffer);
 
   return NextResponse.json({
     image: `/api/images/product/${fileName}`,

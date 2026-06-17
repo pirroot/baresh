@@ -6,6 +6,7 @@ export async function GET() {
     const result = await prisma.slider.findMany({
       orderBy: { createdAt: 'desc' },
     });
+    console.log(result, 'hello');
     return NextResponse.json({ result });
   } catch (error) {
     console.error('[GET /api/slider]', error);

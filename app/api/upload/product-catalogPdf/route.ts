@@ -35,7 +35,6 @@ export async function POST(req: NextRequest) {
   await writeFile(path.join(dir, fileName), buffer);
 
   return NextResponse.json({
-    // ✅ تغییر
     pdf: `/api/images/catalogPdf/${fileName}`,
     fileName,
   });
